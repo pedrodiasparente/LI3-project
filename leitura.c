@@ -1,79 +1,46 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "avltree.h"
 
-char * * getVendas(FILE *fp, int *strcount){
+int getFile(AVL *avl, FILE *fp){
 	char* niceBuffer;
 	char buffer[64];
-	char * * vendas = NULL;
+	int strcount = 0;
 
 	while(fgets(buffer, 64, fp)) {
 		niceBuffer = strtok(buffer, "\r\n");
-		vendas = (char**)realloc(vendas, ((*strcount) + 1) * sizeof(char*));
-		vendas[(*strcount)++] = strdup(niceBuffer);
+		insertAVL(avl, niceBuffer);
+		strcount++;
 	}
-
-	return vendas;
-}
-
-char * * getProdutos(FILE *fp, int *strcount){
-	char* niceBuffer;
-	char buffer[64];
-	char * * produtos = NULL;
-
-	while(fgets(buffer, 64, fp)) {
-		niceBuffer = strtok(buffer, "\r\n");
-		produtos = (char**)realloc(produtos, ((*strcount) + 1) * sizeof(char*));
-		produtos[(*strcount)++] = strdup(niceBuffer);
-	}
-
-	return produtos;
-}
-
-char * * getClientes(FILE *fp, int *strcount){
-	char* niceBuffer;
-	char buffer[64];
-	char * * clientes = NULL;
-
-	while(fgets(buffer, 64, fp)) {
-		niceBuffer = strtok(buffer, "\r\n");
-		clientes = (char**)realloc(clientes, ((*strcount) + 1) * sizeof(char*));
-		clientes[(*strcount)++] = strdup(niceBuffer);
-	}
-
-	return clientes;
+	return strcount;
 }
 
 int main() {
 	FILE *fp;
-	char* *clientes = NULL;
-	char* *produtos = NULL;
-	char* * vendas = NULL;
-	int i;
-	int numClientesReal = 0;
-	int numProdutosReal = 0;
-	int numVendas = 0;
+	AVL clientes, produtos, vendas;
+	clientes = produtos = vendas = NULL;
+	int numClientesReal, numProdutosReal, numVendas;
+	numClientesReal = numProdutosReal = numVendas = 0;
 
 	fp = fopen("./Ficheiros/Clientes.txt", "r");
-	clientes = getClientes(fp, &numClientesReal);
+	numClientesReal = getFile(&clientes, fp);
 	fclose(fp);
 
 	fp = fopen("./Ficheiros/Produtos.txt", "r");
-	produtos = getProdutos(fp, &numProdutosReal);
+	numProdutosReal = getFile(&produtos, fp);
 	fclose(fp);
 
 	fp = fopen("./Ficheiros/Vendas_1M.txt", "r");
- 	vendas = getVendas(fp, &numVendas);
+ 	numVendas = getFile(&vendas, fp);
 	fclose(fp);
 
-	for(i=0;i<numVendas;i++)
-		printf("%s\n", vendas[i]);
+	printAVL(clientes);
+	printAVL(produtos);
+	printAVL(vendas);
 
-	for(i=0;i<numProdutosReal;i++)
-		printf("%s\n", produtos[i]);
-
-	for(i=0;i<numClientesReal;i++)
-		printf("%s\n", clientes[i]);
+	printf("Número de clientes:%d\nNúmero de Produtos:%d\nNúmero de vendas:%d\n",
+			numClientesReal, numProdutosReal, numVendas);
 
 	return 0;
 }

@@ -1,12 +1,11 @@
 CC = gcc
 CFLAGS = -Wall
-EXECUTAVEL = leitura
 
-program: $(EXECUTAVEL)
-	$(CC) $(CFLAGS) leitura.c -o $(EXECUTAVEL)
+leitura: avltree
+	$(CC) $(CFLAGS) leitura.c -o leitura avltree.o
 
-read:
-	$(CC) $(CFLAGS) -c leitura.c
+avltree:
+	$(CC) $(CFLAGS) -c avltree.c
 
 clean:
-	rm $(EXECUTAVEL) leitura.o
+	rm program person.o
