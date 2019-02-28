@@ -98,7 +98,7 @@ AVL insertAVLaux(AVL a, char * str, int *x){
         *x = 0;
     }
     else{
-        if(strcmp(a -> cont, str) > 0){
+        if(strcmp(str, a -> cont) > 0){
             a-> dir = insertAVLaux(a -> dir, str, x);
             if(*x == 1){
                 if(a -> bal == ESQ){
@@ -148,9 +148,9 @@ int searchAVL(AVL a, char * str){
         return 0;
     }
 
-    comp = strcmp(a -> cont, str);
+    comp = strcmp(str, a -> cont);
 
-    if(comp == 0) r = 0;
+    if(comp == 0) r = 1;
     else if(comp > 0) r = searchAVL(a -> dir, str);
     else r = searchAVL(a -> esq, str);
 
