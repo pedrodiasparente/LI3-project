@@ -8,4 +8,4 @@ avltree:
 	$(CC) $(CFLAGS) -c avltree.c
 
 clean:
-	rm program person.o
+	rm leitura avltree.o

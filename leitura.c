@@ -17,63 +17,42 @@ int getFile(AVL *avl, FILE *fp){
 }
 
 int getVendas(AVL *avl, AVL *prod, AVL *client, FILE *fp){
-	char* LnBuffer;
+	char* lnBuffer;
 	char buffer[64];
 	int strcount = 0;
-	char* tokenProd;
-	char* tokenCost;
-	char* tokenQuant;
-	char* tokenPN;
-	char* tokenClient;
-	char* tokenMes;
-	char* tokenFilial;
-	int triggerProdut;
-	int triggerCost;
-	int triggerQuant;
-	int triggerPN;
-	int triggerClient;
-	int triggerMes;
-	int triggerFilial;
+	char* currentTok;
+	int val;
 
 	while(fgets(buffer, 64, fp)) {
-		LnBuffer = strdup(buffer);
-		LnBuffer = strtok(LnBuffer, "\r\n");
-		
-		triggerProdut = 0;
-		triggerCost = 0;
-		triggerQuant = 0;
-		triggerPN = 0;
-		triggerClient = 0;
-		triggerMes = 0;
-		triggerFilial = 0;
+		lnBuffer = strdup(buffer);
+		lnBuffer = strtok(lnBuffer, "\r\n");
 
-		tokenProd = strtok(buffer, " ");
-		tokenCost = strtok(NULL, " ");
-		tokenQuant = strtok(NULL, " ");
-		tokenPN = strtok(NULL, " ");
-		tokenClient = strtok(NULL, " ");
-		tokenMes = strtok(NULL, " ");
-		tokenFilial = strtok(NULL, " ");
+		val = 1;
 
-		
-		if (searchAVL(*prod, tokenProd)) triggerProdut = 1;
+		currentTok = strtok(buffer, " ");
+		if (!(searchAVL(*prod, currentTok))) val = 0;
 
-		if (atof(tokenCost) >= 0.0 && atof(tokenCost) < 1000.0) triggerCost = 1;
-		
-		if (atoi(tokenQuant) >= 1 && atoi(tokenQuant) <= 200) triggerQuant = 1;
-		
-		if (strcmp(tokenPN,"P") == 0 || strcmp(tokenPN,"N") == 0) triggerPN = 1;
-		
-		if (searchAVL(*client, tokenClient)) triggerClient = 1;
+		currentTok = strtok(NULL, " ");
+		if (atoi(currentTok) < 0 || atof(currentTok) >= 1000.0) val = 0;
 
-		if (atoi(tokenMes) >= 1 && atoi(tokenMes) <= 12) triggerMes = 1;
-		
-		if (atoi(tokenFilial) >= 1 && atoi(tokenFilial) <= 3) triggerFilial = 1;
-		
-		if (triggerProdut && triggerCost && triggerQuant && triggerPN && triggerClient && triggerMes && triggerFilial) {
+		currentTok = strtok(NULL, " ");
+		if (atoi(currentTok) < 1 || atoi(currentTok) > 200) val = 0;
+
+		currentTok = strtok(NULL, " ");
+		if (strcmp(currentTok,"P") != 0 && strcmp(currentTok,"N") != 0) val = 0;
+
+		currentTok = strtok(NULL, " ");
+		if (!(searchAVL(*client, currentTok))) val = 0;
+
+		currentTok = strtok(NULL, " ");
+		if (atoi(currentTok) < 1 || atoi(currentTok) > 12) val = 0;
+
+		currentTok = strtok(NULL, " ");
+		if (atoi(currentTok) < 1 || atoi(currentTok) > 3) val = 0;
+
+		if (val) {
 			strcount++;
-			printf("%d %s %s\n", strcount, tokenProd, tokenClient);
-			insertAVL(avl, LnBuffer);
+			insertAVL(avl, lnBuffer);
 		}
 	}
 	return strcount;
