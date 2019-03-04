@@ -16,39 +16,47 @@ int getFile(AVL *avl, FILE *fp){
 	return strcount;
 }
 
+int valVendas(char *buffer, AVL *prod, AVL *client){
+	int val;
+	char* currentTok;
+
+	val = 1;
+
+	currentTok = strtok(buffer, " ");
+	if (!(searchAVL(*prod, currentTok))) val = 0;
+
+	currentTok = strtok(NULL, " ");
+	if (atoi(currentTok) < 0 || atof(currentTok) >= 1000.0) val = 0;
+
+	currentTok = strtok(NULL, " ");
+	if (atoi(currentTok) < 1 || atoi(currentTok) > 200) val = 0;
+
+	currentTok = strtok(NULL, " ");
+	if (strcmp(currentTok,"P") != 0 && strcmp(currentTok,"N") != 0) val = 0;
+
+	currentTok = strtok(NULL, " ");
+	if (!(searchAVL(*client, currentTok))) val = 0;
+
+	currentTok = strtok(NULL, " ");
+	if (atoi(currentTok) < 1 || atoi(currentTok) > 12) val = 0;
+
+	currentTok = strtok(NULL, " ");
+	if (atoi(currentTok) < 1 || atoi(currentTok) > 3) val = 0;
+
+	return val;
+}
+
 int getVendas(AVL *avl, AVL *prod, AVL *client, FILE *fp){
 	char* lnBuffer;
 	char buffer[64];
 	int strcount = 0;
-	char* currentTok;
 	int val;
 
 	while(fgets(buffer, 64, fp)) {
 		lnBuffer = strdup(buffer);
 		lnBuffer = strtok(lnBuffer, "\r\n");
 
-		val = 1;
-
-		currentTok = strtok(buffer, " ");
-		if (!(searchAVL(*prod, currentTok))) val = 0;
-
-		currentTok = strtok(NULL, " ");
-		if (atoi(currentTok) < 0 || atof(currentTok) >= 1000.0) val = 0;
-
-		currentTok = strtok(NULL, " ");
-		if (atoi(currentTok) < 1 || atoi(currentTok) > 200) val = 0;
-
-		currentTok = strtok(NULL, " ");
-		if (strcmp(currentTok,"P") != 0 && strcmp(currentTok,"N") != 0) val = 0;
-
-		currentTok = strtok(NULL, " ");
-		if (!(searchAVL(*client, currentTok))) val = 0;
-
-		currentTok = strtok(NULL, " ");
-		if (atoi(currentTok) < 1 || atoi(currentTok) > 12) val = 0;
-
-		currentTok = strtok(NULL, " ");
-		if (atoi(currentTok) < 1 || atoi(currentTok) > 3) val = 0;
+		val = valVendas(buffer, prod, client);
 
 		if (val) {
 			strcount++;
@@ -83,8 +91,6 @@ int main() {
 
 	printf("Número de clientes:%d\nNúmero de Produtos:%d\nNúmero de vendas:%d\n",
 			numClientesReal, numProdutosReal, numVendas);
-
-
 
 	return 0;
 }
