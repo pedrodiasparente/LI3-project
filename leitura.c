@@ -5,10 +5,10 @@
 
 int getFile(AVL *avl, FILE *fp){
 	char* niceBuffer;
-	char buffer[64];
+	char buffer[35];
 	int strcount = 0;
 
-	while(fgets(buffer, 64, fp)) {
+	while(fgets(buffer, 35, fp)) {
 		niceBuffer = strtok(buffer, "\r\n");
 		insertAVL(avl, niceBuffer);
 		strcount++;
@@ -48,11 +48,11 @@ int valVendas(char *buffer, AVL *prod, AVL *client){
 
 int getVendas(AVL *avl, AVL *prod, AVL *client, FILE *fp){
 	char* lnBuffer;
-	char buffer[64];
+	char buffer[35];
 	int strcount = 0;
 	int val;
 
-	while(fgets(buffer, 64, fp)) {
+	while(fgets(buffer, 35, fp)) {
 		lnBuffer = strdup(buffer);
 		lnBuffer = strtok(lnBuffer, "\r\n");
 
