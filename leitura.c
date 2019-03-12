@@ -16,6 +16,21 @@ int getFile(AVL *avl, FILE *fp){
 	return strcount;
 }
 
+int writeFile(AVL a, FILE *fp){
+	int vWrite;
+
+	vWrite = 0;
+	if(a != NULL){
+		vWrite += writeFile(a -> esq, fp);
+		if(fwrite(a -> cont, 1, strlen(a -> cont), fp)){
+			vWrite++;
+			fwrite("\n", 1, 1, fp);
+		}
+		vWrite += writeFile(a -> dir, fp);
+	}
+	return vWrite;
+}
+
 int valVendas(char *buffer, AVL *prod, AVL *client){
 	int val;
 	char* currentTok;
@@ -70,7 +85,7 @@ int main() {
 	FILE *fp;
 	AVL clientes, produtos, vendas;
 	clientes = produtos = vendas = NULL;
-	int numClientesReal, numProdutosReal, numVendas;
+	int numClientesReal, numProdutosReal, numVendas, vWrite;
 	numClientesReal = numProdutosReal = numVendas = 0;
 
 	fp = fopen("./Ficheiros/Clientes.txt", "r");
@@ -85,10 +100,15 @@ int main() {
  	numVendas = getVendas(&vendas, &produtos, &clientes, fp);
 	fclose(fp);
 
+	fp = fopen("./Ficheiros/Venda_1MValidas.txt", "w");
+	vWrite = writeFile(vendas, fp);
+	fclose(fp);
+
 	//printAVL(clientes);
 	//printAVL(produtos);
 	printAVL(vendas);
 
+	printf("Ṽendas Escrites: %d\n", vWrite);
 	printf("Número de clientes:%d\nNúmero de Produtos:%d\nNúmero de vendas:%d\n",
 			numClientesReal, numProdutosReal, numVendas);
 
