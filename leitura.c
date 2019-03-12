@@ -108,7 +108,7 @@ int main() {
 	//printAVL(produtos);
 	printAVL(vendas);
 
-	printf("Ṽendas Escrites: %d\n", vWrite);
+	printf("Vendas Escritas: %d\n", vWrite);
 	printf("Número de clientes:%d\nNúmero de Produtos:%d\nNúmero de vendas:%d\n",
 			numClientesReal, numProdutosReal, numVendas);
 
