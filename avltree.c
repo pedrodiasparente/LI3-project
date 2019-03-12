@@ -15,9 +15,9 @@
 
 void printAVL(AVL a){
 	if(a){
+		printAVL(a -> esq);
 		printf("%s\n", a -> cont);
 		printAVL(a -> dir);
-		printAVL(a -> esq);
 	}
 }
 
