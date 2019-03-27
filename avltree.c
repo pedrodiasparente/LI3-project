@@ -1,3 +1,5 @@
+#define _GNU_SOURCE 1
+
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -6,6 +8,13 @@
 #define ESQ -1
 #define BAL 0
 #define DIR 1
+
+struct avl {
+    int bal;
+    char * cont;
+    struct avl * dir;
+    struct avl * esq;
+};
 
 /*AVL newAVL(){
     AVL *a = malloc(sizeof(struct avl));
@@ -155,6 +164,21 @@ int searchAVL(AVL a, char * str){
     else r = searchAVL(a -> esq, str);
 
     return r;
+}
+
+int writeFile(AVL a, FILE *fp){
+	int vWrite;
+
+	vWrite = 0;
+	if(a != NULL){
+		vWrite += writeFile(a -> esq, fp);
+		if(fwrite(a -> cont, 1, strlen(a -> cont), fp)){
+			vWrite++;
+			fwrite("\n", 1, 1, fp);
+		}
+		vWrite += writeFile(a -> dir, fp);
+	}
+	return vWrite;
 }
 
 /*void destroyAVL(AVL *a){
