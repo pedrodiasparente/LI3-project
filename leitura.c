@@ -4,21 +4,24 @@
 #include <stdlib.h>
 #include <string.h>
 #include <gmodule.h>
+#include <unistd.h>
 #include <glib.h>
 #include "avltree.h"
 #include "vendas.h"
 
-int getFile(AVL *avl, FILE *fp){
-	char* niceBuffer;
+gint compareStrings(gconstpointer s1, gconstpointer s2){
+	return (strcmp(s1,s2));
+}
+
+void getFile(GTree * tree, FILE *fp){
+	char * niceBuffer, * actualBuffer;
 	char buffer[35];
-	int strcount = 0;
 
 	while(fgets(buffer, 35, fp)) {
 		niceBuffer = strtok(buffer, "\r\n");
-		insertAVL(avl, niceBuffer);
-		strcount++;
+		actualBuffer = strdup(niceBuffer);
+		g_tree_insert(tree, actualBuffer, actualBuffer);
 	}
-	return strcount;
 }
 
 gint printVendaTree(gpointer key, gpointer value, gpointer data){
@@ -26,11 +29,11 @@ gint printVendaTree(gpointer key, gpointer value, gpointer data){
     return FALSE;
 }
 
-int valVendas(VENDA v, AVL *prod, AVL *client){
+int valVendas(VENDA v, GTree * produtos, GTree * clientes){
 	int val;
 	val = 1;
 
-    if (!(searchAVL(*prod, getProduto(v)))) val = 0;
+    if ((g_tree_lookup(produtos, getProduto(v))) == NULL) val = 0;
 
 	if (getPreco(v) < 0 || getPreco(v) >= 1000.0) val = 0;
 
@@ -38,7 +41,7 @@ int valVendas(VENDA v, AVL *prod, AVL *client){
 
 	if (getPromo(v) != 'N' && getPromo(v) != 'P') val = 0;
 
-	if (!(searchAVL(*client, getCliente(v)))) val = 0;
+	if ((g_tree_lookup(clientes, getCliente(v))) == NULL) val = 0;
 
 	if (getMes(v) < 1 || getMes(v) > 12) val = 0;
 
@@ -47,11 +50,10 @@ int valVendas(VENDA v, AVL *prod, AVL *client){
 	return val;
 }
 
-int getVendas(GTree * vendas, AVL *prod, AVL *client, FILE *fp){
+void getVendas(GTree * vendas, GTree * prod, GTree * client, FILE * fp){
 	char* lnBuffer;
 	char buffer[35];
-	int strcount = 0;
-	int val;
+	int val,i = 0;
 	VENDA v;
 
 	while(fgets(buffer, 35, fp)) {
@@ -62,33 +64,33 @@ int getVendas(GTree * vendas, AVL *prod, AVL *client, FILE *fp){
 
 		val = valVendas(v, prod, client);
 
-		if (val) {
-			strcount++;
+		if (val){
+			printf("Venda nº%d: ", i++);
+			printVenda(v);
 			g_tree_insert(vendas, lnBuffer, v);
 		}
 	}
-	return strcount;
 }
 
 int main() {
 	FILE *fp;
-	AVL clientes, produtos;
 	GTree * vendas;
-	vendas = g_tree_new((GCompareFunc)g_ascii_strcasecmp);
-	clientes = produtos = NULL;
-	int numClientesReal, numProdutosReal, numVendas;
-	numClientesReal = numProdutosReal = numVendas = 0;
+	GTree * produtos;
+	GTree * clientes;
+	vendas = g_tree_new_full((GCompareDataFunc) compareStrings,NULL,(GDestroyNotify) free,(GDestroyNotify) destroyVenda);
+	clientes = g_tree_new_full((GCompareDataFunc) compareStrings,NULL, NULL, (GDestroyNotify) free);
+	produtos = g_tree_new_full((GCompareDataFunc) compareStrings,NULL, NULL, (GDestroyNotify) free);
 
 	fp = fopen("./Ficheiros/Clientes.txt", "r");
-	numClientesReal = getFile(&clientes, fp);
+	getFile(clientes, fp);
 	fclose(fp);
 
 	fp = fopen("./Ficheiros/Produtos.txt", "r");
-	numProdutosReal = getFile(&produtos, fp);
+	getFile(produtos, fp);
 	fclose(fp);
 
 	fp = fopen("./Ficheiros/Vendas_1M.txt", "r");
- 	numVendas = getVendas(vendas, &produtos, &clientes, fp);
+ 	getVendas(vendas, produtos, clientes, fp);
 	fclose(fp);
 
 	/*fp = fopen("./Ficheiros/Venda_1MValidas.txt", "w");
@@ -102,9 +104,11 @@ int main() {
 
 	/*printf("Vendas Escritas: %d\n", vWrite);*/
 	printf("Número de clientes:%d\nNúmero de Produtos:%d\nNúmero de vendas:%d\n",
-			numClientesReal, numProdutosReal, g_tree_nnodes(vendas));
+			g_tree_nnodes(clientes), g_tree_nnodes(produtos), g_tree_nnodes(vendas));
 
 	g_tree_destroy(vendas);
+	g_tree_destroy(clientes);
+	g_tree_destroy(produtos);
 
 	return 0;
 }

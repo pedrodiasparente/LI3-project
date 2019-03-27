@@ -7,6 +7,8 @@ VENDA strToVenda(char * str);
 
 void printVenda(VENDA v);
 
+void destroyVenda(VENDA v);
+
 char * getProduto(VENDA v);
 
 char * getCliente(VENDA v);

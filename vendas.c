@@ -6,8 +6,8 @@
 #include "vendas.h"
 
 struct venda {
-    char *cliente;
-    char *produto;
+    char * cliente;
+    char * produto;
     char promo;
     float preco;
     int quantidade;
@@ -18,11 +18,12 @@ struct venda {
 VENDA strToVenda(char * str){
 	char* currentTok;
     char* prod;
-    VENDA v = malloc(sizeof(VENDA));
+    VENDA v;
+    v = malloc(sizeof(VENDA)*8);
 
 	currentTok = strtok(str, " ");
-	v -> produto = strdup(currentTok);
     prod = strdup(currentTok);
+    v -> produto = strdup(prod);
 
 	currentTok = strtok(NULL, " ");
 	v -> preco = atof(currentTok);
@@ -42,7 +43,6 @@ VENDA strToVenda(char * str){
 	currentTok = strtok(NULL, " ");
 	v -> filial = atoi(currentTok);
 
-    v -> produto = strdup(prod);
 
 	return v;
 }
@@ -58,6 +58,11 @@ void printVenda(VENDA v){
                                          v -> filial);
     else
         printf("NULL\n");
+}
+
+void destroyVenda(VENDA v){
+    free(v -> produto);
+    free(v -> cliente);
 }
 
 char * getProduto(VENDA v){
