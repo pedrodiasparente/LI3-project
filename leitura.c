@@ -8,6 +8,7 @@
 #include <glib.h>
 #include "avltree.h"
 #include "vendas.h"
+#include "clientNoBuy.h"
 
 gint compareStrings(gconstpointer s1, gconstpointer s2){
 	return (strcmp(s1,s2));
@@ -105,6 +106,8 @@ int main() {
 	/*printf("Vendas Escritas: %d\n", vWrite);*/
 	printf("Número de clientes:%d\nNúmero de Produtos:%d\nNúmero de vendas:%d\n",
 			g_tree_nnodes(clientes), g_tree_nnodes(produtos), g_tree_nnodes(vendas));
+
+printf("\nYes?%d\n", didNotBuy(vendas,produtos,clientes));
 
 	g_tree_destroy(vendas);
 	g_tree_destroy(clientes);
