@@ -26,7 +26,7 @@ int main() {
 	getProdutos(produtos);
  	getVendas(vendas, produtos, clientes);
     /*QUERY2*/
-    printArray(findProducts(produtos, 'C'));
+    printArray(findProducts(produtos, 'A'));
     /*QUERY6*/
     /*printf("\nYes?%d\n", didNotBuy(vendas,produtos,clientes));*/
 
