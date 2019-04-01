@@ -1,0 +1,43 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <glib.h>
+#include "userData.h"
+
+void printArray(GArray * productArray){
+    int i;
+    char * currentProd;
+
+    currentProd = g_array_index (productArray, char * , 0);
+
+    for(i = 0; currentProd != 0; i++){
+        printf("%s numprods:%d\n", currentProd, i);
+        currentProd = g_array_index (productArray, char * , i);
+    }
+}
+
+gboolean addArray(gpointer key, gpointer value, gpointer Array){
+    GArray * productArray;
+    char * c, * currentProd;
+
+    currentProd = (char *) value;
+    productArray = (GArray *) getData1(Array);
+    c = (char *) getData2(Array);
+
+    if(currentProd[0] == (* c)){
+        g_array_append_val(productArray, currentProd);
+    }
+
+    return FALSE;
+}
+
+GArray * findProducts(GTree * produtos, char a){
+    GArray * productArray = g_array_sized_new(TRUE, TRUE, sizeof(char *), 200);
+    DATA d;
+
+    d = data(productArray, &a);
+
+    g_tree_foreach(produtos, addArray, d);
+
+    return productArray;
+}

@@ -4,30 +4,41 @@
 #include <stdlib.h>
 #include <string.h>
 #include <gmodule.h>
-#include <unistd.h>
 #include <glib.h>
 #include "avltree.h"
 #include "vendas.h"
 #include "clientNoBuy.h"
 
-gint compareStrings(gconstpointer s1, gconstpointer s2){
-	return (strcmp(s1,s2));
-}
-
-void getFile(GTree * tree, FILE *fp){
+void getClientes(GTree * tree){
+	FILE * fp;
 	char * niceBuffer, * actualBuffer;
 	char buffer[35];
+
+	fp = fopen("./Ficheiros/Clientes.txt", "r");
 
 	while(fgets(buffer, 35, fp)) {
 		niceBuffer = strtok(buffer, "\r\n");
 		actualBuffer = strdup(niceBuffer);
 		g_tree_insert(tree, actualBuffer, actualBuffer);
 	}
+
+	fclose(fp);
 }
 
-gint printVendaTree(gpointer key, gpointer value, gpointer data){
-    printVenda((VENDA) value);
-    return FALSE;
+void getProdutos(GTree * tree){
+	FILE * fp;
+	char * niceBuffer, * actualBuffer;
+	char buffer[35];
+
+	fp = fopen("./Ficheiros/Produtos.txt", "r");
+
+	while(fgets(buffer, 35, fp)) {
+		niceBuffer = strtok(buffer, "\r\n");
+		actualBuffer = strdup(niceBuffer);
+		g_tree_insert(tree, actualBuffer, actualBuffer);
+	}
+
+	fclose(fp);
 }
 
 int valVendas(VENDA v, GTree * produtos, GTree * clientes){
@@ -51,11 +62,14 @@ int valVendas(VENDA v, GTree * produtos, GTree * clientes){
 	return val;
 }
 
-void getVendas(GTree * vendas, GTree * prod, GTree * client, FILE * fp){
+void getVendas(GTree * vendas, GTree * prod, GTree * client){
+	FILE * fp;
 	char* lnBuffer;
 	char buffer[35];
-	int val,i = 0;
+	int val;
 	VENDA v;
+
+	fp = fopen("./Ficheiros/Vendas_1M.txt", "r");
 
 	while(fgets(buffer, 35, fp)) {
 		lnBuffer = strdup(buffer);
@@ -66,52 +80,7 @@ void getVendas(GTree * vendas, GTree * prod, GTree * client, FILE * fp){
 		val = valVendas(v, prod, client);
 
 		if (val){
-			printf("Venda nº%d: ", i++);
-			printVenda(v);
 			g_tree_insert(vendas, lnBuffer, v);
 		}
 	}
-}
-
-int main() {
-	FILE *fp;
-	GTree * vendas;
-	GTree * produtos;
-	GTree * clientes;
-	vendas = g_tree_new_full((GCompareDataFunc) compareStrings,NULL,(GDestroyNotify) free,(GDestroyNotify) destroyVenda);
-	clientes = g_tree_new_full((GCompareDataFunc) compareStrings,NULL, NULL, (GDestroyNotify) free);
-	produtos = g_tree_new_full((GCompareDataFunc) compareStrings,NULL, NULL, (GDestroyNotify) free);
-
-	fp = fopen("./Ficheiros/Clientes.txt", "r");
-	getFile(clientes, fp);
-	fclose(fp);
-
-	fp = fopen("./Ficheiros/Produtos.txt", "r");
-	getFile(produtos, fp);
-	fclose(fp);
-
-	fp = fopen("./Ficheiros/Vendas_1M.txt", "r");
- 	getVendas(vendas, produtos, clientes, fp);
-	fclose(fp);
-
-	/*fp = fopen("./Ficheiros/Venda_1MValidas.txt", "w");
-	vWrite = writeFile(vendas, fp);
-	fclose(fp);*/
-
-	/*printAVL(clientes);
-	//printAVL(produtos);
-	//printAVL(vendas);*/
-	g_tree_foreach(vendas, printVendaTree, NULL);
-
-	/*printf("Vendas Escritas: %d\n", vWrite);*/
-	printf("Número de clientes:%d\nNúmero de Produtos:%d\nNúmero de vendas:%d\n",
-			g_tree_nnodes(clientes), g_tree_nnodes(produtos), g_tree_nnodes(vendas));
-
-printf("\nYes?%d\n", didNotBuy(vendas,produtos,clientes));
-
-	g_tree_destroy(vendas);
-	g_tree_destroy(clientes);
-	g_tree_destroy(produtos);
-
-	return 0;
 }

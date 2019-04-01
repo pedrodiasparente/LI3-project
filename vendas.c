@@ -17,13 +17,11 @@ struct venda {
 
 VENDA strToVenda(char * str){
 	char* currentTok;
-    char* prod;
     VENDA v;
-    v = malloc(sizeof(VENDA)*8);
+    v = malloc(sizeof(VENDA)*4);
 
 	currentTok = strtok(str, " ");
-    prod = strdup(currentTok);
-    v -> produto = strdup(prod);
+    v -> produto = strdup(currentTok);
 
 	currentTok = strtok(NULL, " ");
 	v -> preco = atof(currentTok);
