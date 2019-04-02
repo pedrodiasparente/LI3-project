@@ -3,6 +3,7 @@
 #include <string.h>
 #include <glib.h>
 #include "userData.h"
+#include "catProdutos.h"
 
 void printArray(GArray * productArray){
     int i;
@@ -32,13 +33,13 @@ gboolean addArray(gpointer key, gpointer value, gpointer Array){
     return FALSE;
 }
 
-GArray * findProducts(GTree * produtos, char a){
+GArray * findProducts(CAT_PRODUTOS p, char a){
     GArray * productArray = g_array_sized_new(TRUE, TRUE, sizeof(char *), 200);
     DATA d;
 
     d = data(productArray, &a);
 
-    g_tree_foreach(produtos, addArray, d);
+    foreach_Cat_prod(p, addArray, d);
 
     return productArray;
 }

@@ -5,10 +5,12 @@
 #include <string.h>
 #include <gmodule.h>
 #include <glib.h>
+#include "leitura.h"
 #include "avltree.h"
 #include "vendas.h"
 #include "clientNoBuy.h"
 #include "faturacao.h"
+#include "catProdutos.h"
 
 void getClientes(GTree * tree){
 	FILE * fp;
@@ -26,7 +28,7 @@ void getClientes(GTree * tree){
 	fclose(fp);
 }
 
-void getProdutos(GTree * tree){
+void getProdutos(CAT_PRODUTOS p){
 	FILE * fp;
 	char * niceBuffer, * actualBuffer;
 	char buffer[35];
@@ -36,17 +38,17 @@ void getProdutos(GTree * tree){
 	while(fgets(buffer, 35, fp)) {
 		niceBuffer = strtok(buffer, "\r\n");
 		actualBuffer = strdup(niceBuffer);
-		g_tree_insert(tree, actualBuffer, actualBuffer);
+		insert_Cat_prod(p, actualBuffer);
 	}
 
 	fclose(fp);
 }
 
-int valVendas(VENDA v, GTree * produtos, GTree * clientes){
+int valVendas(VENDA v, CAT_PRODUTOS produtos, GTree * clientes){
 	int val;
 	val = 1;
 
-    if ((g_tree_lookup(produtos, getProduto(v))) == NULL) val = 0;
+    if (!lookup_Cat_prod(produtos, getProduto(v))) val = 0;
 
 	if (getPreco(v) < 0 || getPreco(v) >= 1000.0) val = 0;
 
@@ -63,7 +65,7 @@ int valVendas(VENDA v, GTree * produtos, GTree * clientes){
 	return val;
 }
 
-void getVendas(GTree * vendas, GTree * prod, GTree * client){
+void getVendas(GTree * vendas, CAT_PRODUTOS prod, GTree * client){
 	FILE * fp;
 	char* lnBuffer;
 	char buffer[35];

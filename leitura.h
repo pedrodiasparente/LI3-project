@@ -1,10 +1,12 @@
-#ifndef USERDATA_H
-#define USERDATA_H
+#ifndef LEITURA_H
+#define LEITURA_H
 
-void getProdutos(GTree * tree);
+#include "catProdutos.h"
+
+void getProdutos(CAT_PRODUTOS p);
 
 void getClientes(GTree * tree);
 
-void getVendas(GTree * vendas, GTree * prod, GTree * client);
+void getVendas(GTree * vendas, CAT_PRODUTOS prod, GTree * client);
 
 #endif

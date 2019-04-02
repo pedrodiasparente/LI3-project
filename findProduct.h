@@ -3,6 +3,6 @@
 
 void printArray(char * * productArray);
 
-char * * findProducts(GTree * produtos, char a);
+char * * findProducts(CAT_PRODUTOS p, char a);
 
 #endif
