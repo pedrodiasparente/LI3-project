@@ -8,6 +8,7 @@
 #include "avltree.h"
 #include "vendas.h"
 #include "clientNoBuy.h"
+#include "faturacao.h"
 
 void getClientes(GTree * tree){
 	FILE * fp;
@@ -68,6 +69,10 @@ void getVendas(GTree * vendas, GTree * prod, GTree * client){
 	char buffer[35];
 	int val;
 	VENDA v;
+	FATURACAO f;
+
+	f = newFaturacao();
+	destroyFacturacao(f);
 
 	fp = fopen("./Ficheiros/Vendas_1M.txt", "r");
 
