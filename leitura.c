@@ -72,7 +72,7 @@ void getFaturacao(FATGLOBAL fatGlobal, CAT_PRODUTOS prod, CAT_CLIENTES client){
 	int val;
 	VENDA v;
 	FATURACAO currentFat;
-	foreach_Cat_prod(prod, (GTraverseFunc) initFatGlobal, fatGlobal);
+	foreach_Cat_prod(prod,/* (GTraverseFunc)*/ initFatGlobal, fatGlobal);
 
 	fp = fopen("./Ficheiros/Vendas_1M.txt", "r");
 

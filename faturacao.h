@@ -35,12 +35,4 @@ void traverseFatGlobal(FATGLOBAL f, GTraverseFunc func, gpointer user_data);
 
 int numFatGlobal(FATGLOBAL f);
 
-/*int getNVendasPTotal(int mes, FATURACAO f);
-
-int getNVendasNTotal(int mes, FATURACAO f);
-
-int getPrecoPTotal(int mes, FATURACAO f);
-
-int getPrecoNTotal(int mes, FATURACAO f);*/
-
 #endif

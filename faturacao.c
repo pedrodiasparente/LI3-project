@@ -1,8 +1,8 @@
 #include <string.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <glib.h>
 #include <gmodule.h>
-#include <stdlib.h>
 #include "faturacao.h"
 
 struct faturacao {
@@ -129,6 +129,7 @@ gpointer lookupFatGlobal(FATGLOBAL f, char *produto){
 	return (g_tree_lookup (f->faturacaoGlobal, produto));
 }
 
+/*this one not sure if necessary*/
 void traverseFatGlobal(FATGLOBAL f, GTraverseFunc func, gpointer user_data){
 	g_tree_foreach(f->faturacaoGlobal, func, user_data);
 }
