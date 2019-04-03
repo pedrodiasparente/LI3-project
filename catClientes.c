@@ -11,32 +11,32 @@ struct cat_clientes {
 
 CAT_CLIENTES new_Cat_cliente(){
 
-    CAT_CLIENTES p = malloc(sizeof(CAT_CLIENTES));
+    CAT_CLIENTES c = malloc(sizeof(CAT_CLIENTES));
 
-    GTree * clientes = g_tree_new_full((GCompareDataFunc) strcmp,NULL, NULL, (GDestroyNotify) free);
+    GTree * clientes = g_tree_new((GCompareFunc) strcmp);
 
-    p->clientes = clientes;
+    c->clientes = clientes;
 
-    return p;
+    return c;
 }
 
-void destroy_Cat_cliente(CAT_CLIENTES p){
-    g_tree_destroy (p->clientes);
-    free(p);
+void destroy_Cat_cliente(CAT_CLIENTES c){
+    g_tree_destroy(c->clientes);
+	free(c);
 }
 
-void insert_Cat_cliente(CAT_CLIENTES p, char *cliente){
-	g_tree_insert(p->clientes, cliente, cliente);
+void insert_Cat_cliente(CAT_CLIENTES c, char *cliente){
+	g_tree_insert(c->clientes, cliente, cliente);
 }
 
-int lookup_Cat_cliente(CAT_CLIENTES p, char *cliente){
-	return ((g_tree_lookup (p->clientes, cliente)) != NULL);
+int lookup_Cat_cliente(CAT_CLIENTES c, char *cliente){
+	return ((g_tree_lookup (c->clientes, cliente)) != NULL);
 }
 
-void foreach_Cat_cliente(CAT_CLIENTES p, GTraverseFunc func, gpointer user_data){
-	g_tree_foreach(p->clientes, func, user_data);
+void foreach_Cat_cliente(CAT_CLIENTES c, GTraverseFunc func, gpointer user_data){
+	g_tree_foreach(c->clientes, func, user_data);
 }
 
-int num_Cat_cliente(CAT_CLIENTES p) {
-	return g_tree_nnodes(p->clientes);
+int num_Cat_cliente(CAT_CLIENTES c) {
+	return g_tree_nnodes(c->clientes);
 }

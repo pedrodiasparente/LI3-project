@@ -2,11 +2,13 @@
 #define LEITURA_H
 
 #include "catProdutos.h"
+#include "catClientes.h"
+#include "faturacao.h"
 
 void getProdutos(CAT_PRODUTOS p);
 
-void getClientes(GTree * tree);
+void getClientes(CAT_CLIENTES c);
 
-void getVendas(GTree * vendas, CAT_PRODUTOS prod, GTree * client);
+void getFaturacao(FATGLOBAL fatGlobal, CAT_PRODUTOS prod, CAT_CLIENTES client);
 
 #endif

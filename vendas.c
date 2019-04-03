@@ -61,6 +61,7 @@ void printVenda(VENDA v){
 void destroyVenda(VENDA v){
     free(v -> produto);
     free(v -> cliente);
+    free(v);
 }
 
 char * getProduto(VENDA v){

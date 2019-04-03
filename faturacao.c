@@ -8,8 +8,8 @@
 struct faturacao {
     int * * nVendasP;
     int * * nVendasN;
-    int * * precoTotalP;
-    int * * precoTotalN;
+    float * * precoTotalP;
+    float * * precoTotalN;
 };
 
 struct fatGlobal {
@@ -19,82 +19,123 @@ struct fatGlobal {
 FATURACAO newFaturacao(){
     int i, j;
 
-    FATURACAO f = malloc(sizeof(FATURACAO));
+    FATURACAO f = malloc(sizeof(FATURACAO)*4);
 
-    int * * nVendasP = malloc(sizeof(int *)*3);
-    int * * nVendasN = malloc(sizeof(int *)*3);
-    int * * precoTotalP = malloc(sizeof(int *)*3);
-    int * * precoTotalN = malloc(sizeof(int *)*3);
+    (f -> nVendasP) = malloc(sizeof(int *) * 3);
+    (f -> nVendasN) = malloc(sizeof(int *) * 3);
+    (f -> precoTotalP) = malloc(sizeof(float *) * 3);
+    (f -> precoTotalN) = malloc(sizeof(float *) * 3);
 
     for(i = 0; i < 3; i++){
-        nVendasP[i] = malloc(sizeof(int) * 12);
-        nVendasN[i] = malloc(sizeof(int) * 12);
-        precoTotalP[i] = malloc(sizeof(int) * 12);
-        precoTotalN[i] = malloc(sizeof(int) * 12);
+        (f -> nVendasP)[i] = malloc(sizeof(int) * 12);
+        (f -> nVendasN)[i] = malloc(sizeof(int) * 12);
+        (f -> precoTotalP)[i] = malloc(sizeof(float) * 12);
+        (f -> precoTotalN)[i] = malloc(sizeof(float) * 12);
     }
 
     for(j = 0; j < 12; j++)
         for(i = 0; i < 3; i++){
-            nVendasP[i][j] = 0;
-            nVendasN[i][j] = 0;
-            precoTotalP[i][j] = 0;
-            precoTotalN[i][j] = 0;
+            (f -> nVendasP)[i][j] = 0;
+            (f -> nVendasN)[i][j] = 0;
+            (f -> precoTotalP)[i][j] = 0;
+            (f -> precoTotalN)[i][j] = 0;
     }
-
-    (f -> nVendasN) = nVendasN;
-    (f -> nVendasP) = nVendasP;
-    (f -> precoTotalN) = precoTotalN;
-    (f -> precoTotalP) = precoTotalP;
 
     return f;
 }
 
-void destroyFacturacao(FATURACAO f){
+void destroyFaturacao(FATURACAO f){
     int i;
-    for(i = 0; i < 3; i++)
+
+    for(i = 0; i < 3; i++){
         free((f -> nVendasN)[i]);
-    for(i = 0; i < 3; i++)
         free((f -> nVendasP)[i]);
-    for(i = 0; i < 3; i++)
         free((f -> precoTotalN)[i]);
-    for(i = 0; i < 3; i++)
         free((f -> precoTotalP)[i]);
+    }
+
+    free(f -> nVendasN);
+    free(f -> nVendasP);
+    free(f -> precoTotalP);
+    free(f -> precoTotalN);
+
+    free(f);
 }
 
 /*------------------*/
 int getNVendasP(int mes, FATURACAO f, int filial) {
-	return (f->nVendasP)[filial][mes-1];
+	return (f->nVendasP)[filial-1][mes-1];
 }
 
 int getNVendasN(int mes, FATURACAO f, int filial) {
-	return (f->nVendasN)[filial][mes-1];
+	return (f->nVendasN)[filial-1][mes-1];
 }
 
-int getPrecoP(int mes, FATURACAO f, int filial) {
-	return (f->precoTotalP)[filial][mes-1];
+float getPrecoP(int mes, FATURACAO f, int filial) {
+	return (f->precoTotalP)[filial-1][mes-1];
 }
 
-int getPrecoN(int mes, FATURACAO f, int filial) {
-	return (f->precoTotalN)[filial][mes-1];
+float getPrecoN(int mes, FATURACAO f, int filial) {
+	return (f->precoTotalN)[filial-1][mes-1];
 }
 /*------------------*/
-void incNVendasP(int mes, FATURACAO f, int filial){
-	(f->nVendasP)[filial][mes-1]++;
+void incNVendas(FATURACAO f, int mes, int filial, char promo){
+    if(promo == 'P')
+        (f -> nVendasP)[filial-1][mes-1]++;
+    else
+        (f -> nVendasN)[filial-1][mes-1]++;
 }
 
-void ncNVendasN(int mes, FATURACAO f, int filial) {
-	(f->nVendasN)[filial][mes-1]++;
+void somaPrecoTotal(FATURACAO f, int mes, int filial, float preco, char promo){
+    if(promo == 'P')
+        (f -> precoTotalP)[filial-1][mes-1] += preco;
+    else
+        (f -> precoTotalN)[filial-1][mes-1] += preco;
 }
 
-void setPrecoTotalP(int mes, FATURACAO f,int filial, int preco) {
-	(f->precoTotalP)[filial][mes-1] += preco;
+/*FATGLOBAL-----------------------------------------*/
+
+
+FATGLOBAL newFatGlobal(){
+    FATGLOBAL f = malloc(sizeof(FATGLOBAL));
+
+    GTree * faturacaoGlobal = g_tree_new_full((GCompareDataFunc) strcmp, NULL, (GDestroyNotify)  free, (GDestroyNotify) destroyFaturacao);
+
+    f -> faturacaoGlobal = faturacaoGlobal;
+
+    return f;
 }
 
-void setPrecoTotalN(int mes, FATURACAO f,int filial, int preco) {
-	(f->precoTotalN)[filial][mes-1] = preco;
+gint initFatGlobal(gpointer key, gpointer value, gpointer data){
+    FATURACAO f;
+
+    f = newFaturacao();
+
+    insertFatGlobal(data, value, f);
+
+    return FALSE;
 }
 
+void destroyFatGlobal(FATGLOBAL f){
+    g_tree_destroy (f->faturacaoGlobal);
+    free(f);
+}
 
+void insertFatGlobal(FATGLOBAL f, char *produto, FATURACAO fat){
+	g_tree_insert(f->faturacaoGlobal, produto, fat);
+}
+
+gpointer lookupFatGlobal(FATGLOBAL f, char *produto){
+	return (g_tree_lookup (f->faturacaoGlobal, produto));
+}
+
+void traverseFatGlobal(FATGLOBAL f, GTraverseFunc func, gpointer user_data){
+	g_tree_foreach(f->faturacaoGlobal, func, user_data);
+}
+
+int numFatGlobal(FATGLOBAL f) {
+	return g_tree_nnodes(f->faturacaoGlobal);
+}
 
 
 

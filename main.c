@@ -8,6 +8,7 @@
 #include "leitura.h"
 #include "findProduct.h"
 #include "catProdutos.h"
+#include "catClientes.h"
 
 gint printVendaTree(gpointer key, gpointer value, gpointer data){
     printVenda((VENDA) value);
@@ -15,35 +16,32 @@ gint printVendaTree(gpointer key, gpointer value, gpointer data){
 }
 
 int main() {
-	GTree * vendas;
+	FATGLOBAL fatGlobal;
+    FATURACAO f = newFaturacao();
 	CAT_PRODUTOS produtos;
-	GTree * clientes;
-	vendas = g_tree_new_full((GCompareDataFunc) strcmp,NULL,(GDestroyNotify) free,(GDestroyNotify) destroyVenda);
-	clientes = g_tree_new_full((GCompareDataFunc) strcmp,NULL, NULL, (GDestroyNotify) free);
+	CAT_CLIENTES clientes;
+	fatGlobal = newFatGlobal();
+	clientes = new_Cat_cliente();
 	produtos = new_Cat_prod();
+
+    destroyFaturacao(f);
 
     /*QUERY1*/
 	getClientes(clientes);
 	getProdutos(produtos);
- 	getVendas(vendas, produtos, clientes);
+ 	getFaturacao(fatGlobal, produtos, clientes);
     /*QUERY2*/
     printArray(findProducts(produtos, 'A'));
     /*QUERY6*/
     /*printf("\nYes?%d\n", didNotBuy(vendas,produtos,clientes));*/
 
-
-	/*printAVL(clientes);
-	//printAVL(produtos);
-	//printAVL(vendas);
-	//g_tree_foreach(vendas, printVendaTree, NULL);*/
-
 	/*printf("Vendas Escritas: %d\n", vWrite);*/
-	printf("Número de clientes:%d\nNúmero de Produtos:%d\nNúmero de vendas:%d\n",
-			g_tree_nnodes(clientes), num_Cat_prod(produtos), g_tree_nnodes(vendas));
+	printf("Número de clientes:%d\nNúmero de Produtos:%d\nNúmero de faturações:%d\n",
+			num_Cat_cliente(clientes), num_Cat_prod(produtos), numFatGlobal(fatGlobal));
 
-	g_tree_destroy(vendas);
-	g_tree_destroy(clientes);
+	destroyFatGlobal(fatGlobal);
 	destroy_Cat_prod(produtos);
+    destroy_Cat_cliente(clientes);
 
 	return 0;
 }

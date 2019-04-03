@@ -7,25 +7,33 @@ typedef struct fatGlobal *FATGLOBAL;
 
 FATURACAO newFaturacao();
 
-void destroyFacturacao(FATURACAO f);
+void destroyFaturacao(FATURACAO f);
 
 int getNVendasP(int mes, FATURACAO f, int filial);
 
 int getNVendasN(int mes, FATURACAO f, int filial);
 
-int getPrecoP(int mes, FATURACAO f, int filial);
+float getPrecoP(int mes, FATURACAO f, int filial);
 
-int getPrecoN(int mes, FATURACAO f, int filial);
+float getPrecoN(int mes, FATURACAO f, int filial);
 
-void incNVendasP(int mes, FATURACAO f, int filial);
+void incNVendas(FATURACAO f, int mes, int filial, char promo);
 
-void incNVendasN(int mes, FATURACAO f, int filial);
+void somaPrecoTotal(FATURACAO f, int mes, int filial, float preco, char promo);
 
-void setPrecoTotalP(int mes, FATURACAO f,int filial, int preco);
+FATGLOBAL newFatGlobal();
 
-void setPrecoTotalN(int mes, FATURACAO f,int filial, int preco);
+gint initFatGlobal(gpointer key, gpointer value, gpointer data);
 
+void destroyFatGlobal(FATGLOBAL f);
 
+void insertFatGlobal(FATGLOBAL f, char *produto, FATURACAO fat);
+
+gpointer lookupFatGlobal(FATGLOBAL f, char *produto);
+
+void traverseFatGlobal(FATGLOBAL f, GTraverseFunc func, gpointer user_data);
+
+int numFatGlobal(FATGLOBAL f);
 
 /*int getNVendasPTotal(int mes, FATURACAO f);
 
