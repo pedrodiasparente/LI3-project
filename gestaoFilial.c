@@ -6,9 +6,6 @@
 #include "gestaoFilial.h"
 
 #define _GNU_SOURCE 1
-#define N 0
-#define P 1
-
 
 struct gestaoFilial{
     GTree * clientes;
@@ -21,7 +18,7 @@ struct gestaoCliente{
 struct infoProduto{
     int *quantP;
     int *quantN;
-}
+};
 
 /*GESTAO DE FILIAL (FUNCOES DE GESTAO DA TREE DE CLIENTES PARA CADA FILIAL)*/
 
@@ -30,33 +27,42 @@ GESTAOFILIAL newGestaoFilial(){
 
     gf = malloc(sizeof(GESTAOFILIAL));
 
-    (gf -> clientes) = g_tree_new((GCompareFunc) strcmp);
+    (gf -> clientes) = g_tree_new_full((GCompareDataFunc) strcmp, NULL, (GDestroyNotify)  free, (GDestroyNotify) destroyGestaoCliente);
 
     return gf;
 }
 
-void destroy_gestao_filial(GESTAOFILIAL gf){
+gint initGestaoFilial(gpointer key, gpointer value, gpointer data){
+    GESTAOCLIENTE g;
+
+    g = newGestaoCliente();
+
+    insertGestaoFilial(data, value, g);
+
+    return FALSE;
+}
+
+void destroyGestaoFilial(GESTAOFILIAL gf){
     g_tree_destroy (gf->clientes);
     free(gf);
 }
 
-void insert_gestao_filial(GESTAOFILIAL gf, char *cliente){
-    g_tree_insert(gf->clientes, cliente, cliente);
+gpointer lookupGestaoFilial(GESTAOFILIAL gf, char *cliente){
+    return (g_tree_lookup (gf->clientes, cliente));
 }
 
-gpointer lookup_gestao_filial(GESTAOFILIAL gf, char *cliente){
-    return (g_tree_lookup (gf->clientes, cliente));
+void insertGestaoFilial(GESTAOFILIAL gf, char *cliente, GESTAOCLIENTE gc){
+    g_tree_insert(gf -> clientes, cliente, gc);
 }
 
 /*this one not sure if necessary*/
 void traverseGestFilial(GESTAOFILIAL gf, GTraverseFunc func, gpointer user_data){
-    g_tree_foreach(gf->clientes, func, user_data);
+    g_tree_foreach(gf -> clientes, func, user_data);
 }
 
-int num_gestao_filial(GESTAOFILIAL gf) {
-    return g_tree_nnodes(gf->clientes);
+int numGestaoFilial(GESTAOFILIAL gf) {
+    return g_tree_nnodes(gf -> clientes);
 }
-
 /*GESTAO DE CLIENTE (FUNCOES DE GESTAO DA TREE DE PRODUTOS PARA CADA CLIENTE)*/
 
 GESTAOCLIENTE newGestaoCliente(){
@@ -64,39 +70,30 @@ GESTAOCLIENTE newGestaoCliente(){
 
     gc = malloc(sizeof(GESTAOCLIENTE));
 
-    (gc-> produtos) = g_tree_new((GCompareFunc) strcmp);
+    (gc -> produtos) = g_tree_new_full((GCompareDataFunc) strcmp, NULL, (GDestroyNotify)  free, (GDestroyNotify) destroyInfoProd);
 
     return gc;
 }
 
-static void somaMat(int produtoData[][],int newProduto[][]){
-    int i,j;
+static void somaProdInfo(INFOPROD produtoData, INFOPROD newProduto){
+    int i;
 
-    for(i=0;i<2;i++)
-        for(j=0;j<12;j++)
-            produtoData[i][j] =  (produtoData[i][j] + newProduto[i][j]);
+    for(i = 0; i < 12; i++)
+        setQuant(produtoData, i, getQuant(newProduto, i, 'N'), 'N');
+    for(i = 0; i < 12; i++)
+        setQuant(produtoData, i, getQuant(newProduto, i, 'P'), 'P');
+
 }
 
-void addProdutoCliente(GESTAOCLIENTE g, char * prod, int quant, int mes, char promo){
-    int * * newProduto;
-    int * * produtoData;
-    int i, j;
+void addProdutoCliente(GESTAOCLIENTE g, char * prod, INFOPROD newProduto){
+    INFOPROD produtoData;
 
-    for(i=0;i<2;i++)
-        for(j=0;j<12;j++)
-            newProduto[i][j] = 0;
-
-    if(promo == 'N')
-        newProduto[mes-1][N] = quant;
-    else
-        newProduto[mes-1][P] = quant;
-
-    produtoData = g_tree_lookup((g->produtos), prod);
-
-    if(produtoData == NULL)
+    produtoData = lookupProdutoCliente(g, prod);
+    if(produtoData == NULL){
         g_tree_insert((g -> produtos), prod, newProduto);
+    }
     else{
-        somaMat(produtoData, newProduto);
+        somaProdInfo(produtoData, newProduto);
     }
 }
 
@@ -107,4 +104,49 @@ gpointer lookupProdutoCliente(GESTAOCLIENTE g, char * prod){
 /*this one not sure if necessary*/
 int numProdutosCliente(GESTAOCLIENTE g){
     return (g_tree_nnodes(g -> produtos));
+}
+
+void destroyGestaoCliente(GESTAOCLIENTE gc){
+    g_tree_destroy (gc -> produtos);
+    free(gc);
+}
+
+
+/*infoProduto------------------------------------------*/
+
+INFOPROD newInfoProd(){
+    INFOPROD infoProduto;
+    int i;
+
+    infoProduto = malloc(sizeof(INFOPROD));
+
+    (infoProduto -> quantN) = malloc(sizeof(int)*12);
+    (infoProduto -> quantP) = malloc(sizeof(int)*12);
+
+    for(i = 0; i < 12; i++){
+        (infoProduto -> quantN)[i] = 0;
+        (infoProduto -> quantP)[i] = 0;
+    }
+
+    return infoProduto;
+}
+
+void destroyInfoProd(INFOPROD i){
+    free(i -> quantN);
+    free(i -> quantP);
+    free(i);
+}
+
+int getQuant(INFOPROD i, int mes, char promo){
+    if(promo == 'N')
+        return ((i -> quantN)[mes]);
+    else
+        return ((i -> quantP)[mes]);
+}
+
+void setQuant(INFOPROD i, int mes, int quant, char promo){
+    if(promo == 'N')
+        (i -> quantN)[mes] += quant;
+    else
+        (i -> quantN)[mes] += quant;
 }

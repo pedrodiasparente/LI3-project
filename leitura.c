@@ -7,8 +7,8 @@
 #include <glib.h>
 #include "leitura.h"
 #include "vendas.h"
-#include "clientNoBuy.h"
 #include "faturacao.h"
+#include "gestaoFilial.h"
 #include "catProdutos.h"
 #include "catClientes.h"
 
@@ -65,14 +65,31 @@ int valVendas(VENDA v, CAT_PRODUTOS produtos, CAT_CLIENTES clientes){
 	return val;
 }
 
-void getFaturacao(FATGLOBAL fatGlobal, CAT_PRODUTOS prod, CAT_CLIENTES client){
+void getGestaoFilial(GESTAOFILIAL * gestFilial, VENDA v){
+	GESTAOCLIENTE gestCliente;
+	INFOPROD prodActual;
+	char * prodAux;
+
+	prodAux = strdup(getProduto(v));
+	gestCliente = lookupGestaoFilial(gestFilial[getFilial(v)-1], getCliente(v));
+	prodActual = newInfoProd();
+	setQuant(prodActual, getMes(v), getQuantidade(v), getPromo(v));
+
+	addProdutoCliente(gestCliente, prodAux, prodActual);
+}
+
+
+void getVendas(FATGLOBAL fatGlobal, GESTAOFILIAL * gestFilial, CAT_PRODUTOS prod, CAT_CLIENTES client){
 	FILE * fp;
 	char * lnBuffer;
 	char buffer[35];
-	int val;
+	int val, i;
 	VENDA v;
 	FATURACAO currentFat;
-	foreach_Cat_prod(prod,/* (GTraverseFunc)*/ initFatGlobal, fatGlobal);
+
+	foreach_Cat_prod(prod, initFatGlobal, fatGlobal);
+	for(i = 0; i < 3; i++)
+		foreach_Cat_cliente(client, initGestaoFilial, gestFilial[i]);
 
 	fp = fopen("./Ficheiros/Vendas_1M.txt", "r");
 
@@ -87,6 +104,7 @@ void getFaturacao(FATGLOBAL fatGlobal, CAT_PRODUTOS prod, CAT_CLIENTES client){
 		free(lnBuffer);
 
 		if (val){
+			getGestaoFilial(gestFilial, v);
 			incNVendas(currentFat, getMes(v), getFilial(v), getPromo(v));
 			somaPrecoTotal(currentFat, getMes(v), getFilial(v), getPreco(v), getPromo(v));
 		}
