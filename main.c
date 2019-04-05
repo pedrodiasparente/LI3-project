@@ -7,6 +7,7 @@
 #include "clientNoBuy.h"
 #include "leitura.h"
 #include "findProduct.h"
+#include "vendasProdMes.h"
 #include "catProdutos.h"
 #include "catClientes.h"
 #include "gestaoFilial.h"
@@ -24,13 +25,18 @@ int main() {
 	clientes = new_Cat_cliente();
 	produtos = new_Cat_prod();
 
-    /*QUERY1*/
+    /*----------QUERY [3]-----------*/
 	getClientes(clientes);
 	getProdutos(produtos);
  	getVendas(fatGlobal, gestFilial, produtos, clientes);
-    /*QUERY2*/
-    /*printArray(findProducts(produtos, 'A'));*/
-    /*QUERY6*/
+    /*----------QUERY [2]-----------*/
+    if(0) printArray(findProducts(produtos, 'A'));
+	/*----------QUERY [3]-----------*/
+	printf("VENDAS P: [%d]", totalVendasProdMesP(fatGlobal, "AA1409", 6, 1));
+	printf("VENDAS N: [%d]", totalVendasProdMesN(fatGlobal, "AA1409", 8, 2));
+	printf("FATURACAO P: [%f]", totalFatProdMesP(fatGlobal, "AA1409", 6, 1));
+	printf("FATURACAO N: [%f]", totalFatProdMesN(fatGlobal, "AA1409", 8, 2));
+    /*----------QUERY [6]-----------*/
     /*printf("\nYes?%d\n", didNotBuy(vendas,produtos,clientes));*/
 
 	/*printf("Vendas Escritas: %d\n", vWrite);*/
