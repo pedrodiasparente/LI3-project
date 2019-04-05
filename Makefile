@@ -1,6 +1,6 @@
 CC = gcc
 LDLIBS = `pkg-config --libs glib-2.0` `pkg-config --cflags --libs gmodule-2.0`
-CFLAGS = -Wall -ansi `pkg-config --cflags glib-2.0` `pkg-config --cflags --libs gmodule-2.0`
+CFLAGS = -O3 -Wall -ansi `pkg-config --cflags glib-2.0` `pkg-config --cflags --libs gmodule-2.0`
 
 sgv: leitura.o clientNoBuy.o vendas.o userData.o main.o findProduct.o faturacao.o gestaoFilial.o catProdutos.o catClientes.o vendasProdMes.o
 	$(CC) $(CFLAGS) main.o leitura.o clientNoBuy.o vendas.o userData.o findProduct.o faturacao.o gestaoFilial.o catProdutos.o catClientes.o vendasProdMes.o -o sgv $(LDLIBS)

@@ -32,10 +32,12 @@ int main() {
     /*----------QUERY [2]-----------*/
     if(0) printArray(findProducts(produtos, 'A'));
 	/*----------QUERY [3]-----------*/
-	printf("VENDAS P: [%d]", totalVendasProdMesP(fatGlobal, "AA1409", 6, 1));
-	printf("VENDAS N: [%d]", totalVendasProdMesN(fatGlobal, "AA1409", 8, 2));
-	printf("FATURACAO P: [%f]", totalFatProdMesP(fatGlobal, "AA1409", 6, 1));
-	printf("FATURACAO N: [%f]", totalFatProdMesN(fatGlobal, "AA1409", 8, 2));
+	if(0){
+		printf("VENDAS P: [%d]\n", totalVendasProdMesP(fatGlobal, "AA1409", 6, 1));
+		printf("VENDAS N: [%d]\n", totalVendasProdMesN(fatGlobal, "AA1409", 8, 2));
+		printf("FATURACAO P: [%f]\n", totalFatProdMesP(fatGlobal, "AA1409", 6, 1));
+		printf("FATURACAO N: [%f]\n", totalFatProdMesN(fatGlobal, "AA1409", 8, 2));
+	}
     /*----------QUERY [6]-----------*/
     /*printf("\nYes?%d\n", didNotBuy(vendas,produtos,clientes));*/
 
