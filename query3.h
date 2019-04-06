@@ -1,5 +1,5 @@
-#ifndef VENDASPRODMES_H
-#define VENDASPRODMES_H
+#ifndef QUERY3_H
+#define QUERY3_H
 
 #include "faturacao.h"
 

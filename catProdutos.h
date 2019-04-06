@@ -15,4 +15,6 @@ void foreach_Cat_prod(CAT_PRODUTOS p, GTraverseFunc func, gpointer user_data);
 
 int num_Cat_prod(CAT_PRODUTOS p);
 
+void print_Cat_prod(CAT_PRODUTOS p);
+
 #endif

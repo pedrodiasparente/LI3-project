@@ -1,5 +1,5 @@
-#ifndef FINDPRODUCT_H
-#define FINDPRODUCT_H
+#ifndef QUERY2_H
+#define QUERY2_H
 
 void printArray(char * * productArray);
 

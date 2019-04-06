@@ -40,3 +40,12 @@ void foreach_Cat_prod(CAT_PRODUTOS p, GTraverseFunc func, gpointer user_data){
 int num_Cat_prod(CAT_PRODUTOS p) {
 	return g_tree_nnodes(p->produtos);
 }
+
+static gboolean print_GTree(gpointer key, gpointer value, gpointer data) {
+    printf("%s\n", (char *) value);
+    return FALSE;
+}
+
+void print_Cat_prod(CAT_PRODUTOS p) {
+    foreach_Cat_prod(p, print_GTree, NULL);
+}
