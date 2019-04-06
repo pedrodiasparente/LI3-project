@@ -107,7 +107,7 @@ void getVendas(FATGLOBAL fatGlobal, GESTAOFILIAL * gestFilial, CAT_PRODUTOS prod
 		if (val){
 			getGestaoFilial(gestFilial, v);
 			incNVendas(currentFat, getMes(v), getFilial(v), getPromo(v));
-			somaPrecoTotal(currentFat, getMes(v), getFilial(v), getPreco(v), getPromo(v));
+			somaPrecoTotal(currentFat, getMes(v), getFilial(v), getPreco(v), getPromo(v), getQuantidade(v));
 		}
 		destroyVenda(v);
 	}

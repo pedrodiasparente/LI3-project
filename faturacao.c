@@ -86,11 +86,11 @@ void incNVendas(FATURACAO f, int mes, int filial, char promo){
         ((f -> nVendasN)[filial-1][mes-1])++;
 }
 
-void somaPrecoTotal(FATURACAO f, int mes, int filial, float preco, char promo){
+void somaPrecoTotal(FATURACAO f, int mes, int filial, float preco, char promo, int quantidade){
     if (promo == 'P')
-        ((f -> precoTotalP)[filial-1][mes-1]) += preco;
+        ((f -> precoTotalP)[filial-1][mes-1]) += (preco * quantidade);
     else if (promo == 'N')
-        ((f -> precoTotalN)[filial-1][mes-1]) += preco;
+        ((f -> precoTotalN)[filial-1][mes-1]) += (preco * quantidade);
 }
 
 /*FATGLOBAL-----------------------------------------*/

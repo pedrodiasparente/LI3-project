@@ -32,7 +32,7 @@ float totalFatProdMesP(FATGLOBAL fg, char * prod, int mes, int filial){
 
     f = lookupFatGlobal(fg, prod);
     if(f != NULL)
-        return getPrecoN(mes, f, filial);
+        return getPrecoP(mes, f, filial);
     else
         return 0;
 }

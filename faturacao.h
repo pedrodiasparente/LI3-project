@@ -19,7 +19,7 @@ float getPrecoN(int mes, FATURACAO f, int filial);
 
 void incNVendas(FATURACAO f, int mes, int filial, char promo);
 
-void somaPrecoTotal(FATURACAO f, int mes, int filial, float preco, char promo);
+void somaPrecoTotal(FATURACAO f, int mes, int filial, float preco, char promo, int quantidade);
 
 FATGLOBAL newFatGlobal();
 
