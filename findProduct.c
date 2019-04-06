@@ -15,10 +15,10 @@ void printArray(GArray * productArray){
         printf("%s\n", currentProd);
         currentProd = g_array_index (productArray, char * , i);
     }
-    printf("\nQUERIE 2:Número de produtos: %d\n",i-1);
+    printf("\nQUERIE 2: Número de produtos: %d\n\n",i-1);
 }
 
-gboolean addArray(gpointer key, gpointer value, gpointer Array){
+static gboolean addArray(gpointer key, gpointer value, gpointer Array){
     GArray * productArray;
     char * c, * currentProd;
 

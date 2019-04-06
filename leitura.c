@@ -44,7 +44,7 @@ void getProdutos(CAT_PRODUTOS p){
 	fclose(fp);
 }
 
-int valVendas(VENDA v, CAT_PRODUTOS produtos, CAT_CLIENTES clientes){
+static int valVendas(VENDA v, CAT_PRODUTOS produtos, CAT_CLIENTES clientes){
 	int val;
 	val = 1;
 
@@ -65,6 +65,7 @@ int valVendas(VENDA v, CAT_PRODUTOS produtos, CAT_CLIENTES clientes){
 	return val;
 }
 
+/*esta aqui está a servir de funçao auxiliar mas devia ser uma funçao mesmo*/
 void getGestaoFilial(GESTAOFILIAL * gestFilial, VENDA v){
 	GESTAOCLIENTE gestCliente;
 	INFOPROD prodActual;
@@ -78,7 +79,7 @@ void getGestaoFilial(GESTAOFILIAL * gestFilial, VENDA v){
 	addProdutoCliente(gestCliente, prodAux, prodActual);
 }
 
-
+/*a getVendas acho que na verdade só está a servir de funçao que faz a getGestaoFilial e getFaturaçao lol*/
 void getVendas(FATGLOBAL fatGlobal, GESTAOFILIAL * gestFilial, CAT_PRODUTOS prod, CAT_CLIENTES client){
 	FILE * fp;
 	char * lnBuffer;

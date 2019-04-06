@@ -12,7 +12,7 @@ int totalVendasProdMesP(FATGLOBAL fg, char * prod, int mes, int filial){
     if(f != NULL)
         return getNVendasP(mes, f, filial);
     else{
-        printf("Prod [%s] = NULL", prod);
+        printf("Prod [%s] = NULL\n", prod);
         return 0;
     }
 }

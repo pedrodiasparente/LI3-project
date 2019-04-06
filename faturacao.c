@@ -81,16 +81,16 @@ float getPrecoN(int mes, FATURACAO f, int filial) {
 /*------------------*/
 void incNVendas(FATURACAO f, int mes, int filial, char promo){
     if(promo == 'P')
-        (f -> nVendasP)[filial-1][mes-1]++;
-    else
-        (f -> nVendasN)[filial-1][mes-1]++;
+        ((f -> nVendasP)[filial-1][mes-1])++;
+    else if (promo == 'N')
+        ((f -> nVendasN)[filial-1][mes-1])++;
 }
 
 void somaPrecoTotal(FATURACAO f, int mes, int filial, float preco, char promo){
-    if(promo == 'P')
-        (f -> precoTotalP)[filial-1][mes-1] += preco;
-    else
-        (f -> precoTotalN)[filial-1][mes-1] += preco;
+    if (promo == 'P')
+        ((f -> precoTotalP)[filial-1][mes-1]) += preco;
+    else if (promo == 'N')
+        ((f -> precoTotalN)[filial-1][mes-1]) += preco;
 }
 
 /*FATGLOBAL-----------------------------------------*/
@@ -137,37 +137,6 @@ void traverseFatGlobal(FATGLOBAL f, GTraverseFunc func, gpointer user_data){
 int numFatGlobal(FATGLOBAL f) {
 	return g_tree_nnodes(f->faturacaoGlobal);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*int getNVendasPTotal(int mes, FATURACAO f)  {
 	return (getNVendasP(mes,f,0) + getNVendasP(mes,f,1) + getNVendasP(mes,f,2));
