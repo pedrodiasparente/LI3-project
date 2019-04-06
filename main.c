@@ -8,6 +8,7 @@
 #include "leitura.h"
 #include "findProduct.h"
 #include "vendasProdMes.h"
+#include "query4.h"
 #include "catProdutos.h"
 #include "catClientes.h"
 #include "gestaoFilial.h"
@@ -38,6 +39,15 @@ int main() {
 		printf("FATURACAO P: [%f]\n", totalFatProdMesP(fatGlobal, "AA1409", 6, 1));
 		printf("FATURACAO N: [%f]\n", totalFatProdMesN(fatGlobal, "AA1409", 8, 2));
 	}
+	/*----------QUERY [4]-----------*/
+	if(0){
+		printf("QUERY4 TOTAL [%d]\n", num_Cat_prod(productNoBuy(fatGlobal)));
+		printf("QUERY4 F1 [%d]\n", num_Cat_prod(productNoBuyFilial(fatGlobal, 1)));
+		printf("QUERY4 F2 [%d]\n", num_Cat_prod(productNoBuyFilial(fatGlobal, 2)));
+		printf("QUERY4 F3 [%d]\n", num_Cat_prod(productNoBuyFilial(fatGlobal, 3)));
+	}
+	/*----------QUERY [5]-----------*/
+
     /*----------QUERY [6]-----------*/
     /*printf("\nYes?%d\n", didNotBuy(vendas,produtos,clientes));*/
 
