@@ -9,6 +9,7 @@
 #include "query2.h"
 #include "query3.h"
 #include "query4.h"
+#include "query5.h"
 #include "catProdutos.h"
 #include "catClientes.h"
 #include "gestaoFilial.h"
@@ -20,10 +21,10 @@ int main() {
 	CAT_PRODUTOS produtos;
 	CAT_CLIENTES clientes;
 
-	char querie2Letra;
-	char querie4Prod[6];
-	int querie4Mes;
-	int querie4Filial;
+	char query2Letra;
+	char query4Prod[6];
+	int query4Mes;
+	int query4Filial;
 
 
 	fatGlobal = newFatGlobal();
@@ -32,36 +33,40 @@ int main() {
 	clientes = new_Cat_cliente();
 	produtos = new_Cat_prod();
 
-    /*----------QUERIE [1]-----------*/
+    /*----------QUERY [1]-----------*/
 	getClientes(clientes);
 	getProdutos(produtos);
  	getVendas(fatGlobal, gestFilial, produtos, clientes);
-    /*----------QUERIE [2]-----------*/
+    /*----------QUERY [2]-----------*/
     if(0) {
-    	printf("QUERIE 2: Forneça uma letra (maiúscula)\n");
-		scanf("%c",&querie2Letra);
-    	printArray(findProducts(produtos, querie2Letra));
+    	printf("QUERY 2: Forneça uma letra (maiúscula)\n");
+		scanf("%c",&query2Letra);
+    	printArray(findProducts(produtos, query2Letra));
     }
-	/*----------QUERIE [3]-----------*/
+	/*----------QUERY [3]-----------*/
 	if(0){
-		printf("QUERIE 3: Forneça um produto, um mês e uma filial\n");
-		scanf("%s %d %d",querie4Prod, &querie4Mes, &querie4Filial);
-		printf("QUERIE 3: VENDAS P: [%d]\n", totalVendasProdMesP(fatGlobal, querie4Prod, querie4Mes, querie4Filial));
-		printf("QUERIE 3: VENDAS N: [%d]\n", totalVendasProdMesN(fatGlobal, querie4Prod, querie4Mes, querie4Filial));
-		printf("QUERIE 3: FATURACAO P: [%f]\n", totalFatProdMesP(fatGlobal, querie4Prod, querie4Mes, querie4Filial));
-		printf("QUERIE 3: FATURACAO N: [%f]\n", totalFatProdMesN(fatGlobal, querie4Prod, querie4Mes, querie4Filial));
+		printf("QUERY 3: Forneça um produto, um mês e uma filial\n");
+		scanf("%s %d %d",query4Prod, &query4Mes, &query4Filial);
+		printf("QUERY 3: VENDAS P: [%d]\n", totalVendasProdMesP(fatGlobal, query4Prod, query4Mes, query4Filial));
+		printf("QUERY 3: VENDAS N: [%d]\n", totalVendasProdMesN(fatGlobal, query4Prod, query4Mes, query4Filial));
+		printf("QUERY 3: FATURACAO P: [%f]\n", totalFatProdMesP(fatGlobal, query4Prod, query4Mes, query4Filial));
+		printf("QUERY 3: FATURACAO N: [%f]\n", totalFatProdMesN(fatGlobal, query4Prod, query4Mes, query4Filial));
 	}
-	/*----------QUERIE [4]-----------*/
+	/*----------QUERY [4]-----------*/
 	if(0){
+		printf("QUERY 4:\n");
 		print_Cat_prod(productNoBuy(fatGlobal));
-		printf("QUERIE 4: TOTAL [%d]\n", num_Cat_prod(productNoBuy(fatGlobal)));
-		printf("QUERIE 4: F1 [%d]\n", num_Cat_prod(productNoBuyFilial(fatGlobal, 1)));
-		printf("QUERIE 4: F2 [%d]\n", num_Cat_prod(productNoBuyFilial(fatGlobal, 2)));
-		printf("QUERIE 4: F3 [%d]\n", num_Cat_prod(productNoBuyFilial(fatGlobal, 3)));
+		printf("QUERY 4: TOTAL [%d]\n", num_Cat_prod(productNoBuy(fatGlobal)));
+		printf("QUERY 4: F1 [%d]\n", num_Cat_prod(productNoBuyFilial(fatGlobal, 1)));
+		printf("QUERY 4: F2 [%d]\n", num_Cat_prod(productNoBuyFilial(fatGlobal, 2)));
+		printf("QUERY 4: F3 [%d]\n", num_Cat_prod(productNoBuyFilial(fatGlobal, 3)));
 	}
-	/*----------QUERIE [5]-----------*/
-
-    /*----------QUERIE [6]-----------*/
+	/*----------QUERY [5]-----------*/
+	if(0) {
+		printf("QUERY 5:\n");
+		print_Cat_client(clientAll(gestFilial));
+	}
+    /*----------QUERY [6]-----------*/
     /*printf("\nYes?%d\n", didNotBuy(vendas,produtos,clientes));*/
 
 	/*printf("Vendas Escritas: %d\n", vWrite);*/

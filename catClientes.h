@@ -15,4 +15,6 @@ void foreach_Cat_cliente(CAT_CLIENTES c, GTraverseFunc func, gpointer user_data)
 
 int num_Cat_cliente(CAT_CLIENTES c);
 
+void print_Cat_client(CAT_CLIENTES c);
+
 #endif

@@ -40,3 +40,12 @@ void foreach_Cat_cliente(CAT_CLIENTES c, GTraverseFunc func, gpointer user_data)
 int num_Cat_cliente(CAT_CLIENTES c) {
 	return g_tree_nnodes(c->clientes);
 }
+
+static gboolean print_GTree(gpointer key, gpointer value, gpointer data) {
+    printf("%s\n", (char *) value);
+    return FALSE;
+}
+
+void print_Cat_client(CAT_CLIENTES c) {
+    foreach_Cat_cliente(c, print_GTree, NULL);
+}
