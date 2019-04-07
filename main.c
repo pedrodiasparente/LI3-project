@@ -10,6 +10,7 @@
 #include "query3.h"
 #include "query4.h"
 #include "query5.h"
+#include "query6.h"
 #include "catProdutos.h"
 #include "catClientes.h"
 #include "gestaoFilial.h"
@@ -67,9 +68,13 @@ int main() {
 		print_Cat_client(clientAll(gestFilial));
 	}
     /*----------QUERY [6]-----------*/
-    /*printf("\nYes?%d\n", didNotBuy(vendas,produtos,clientes));*/
-
-	/*printf("Vendas Escritas: %d\n", vWrite);*/
+    if(1) {
+    	printf("QUERY 6:\n");
+    	printf("CLIENTES QUE NÃO COMPRARAM: %d\n", num_Cat_cliente(noClient(gestFilial,clientes)));
+    	/*esta parte é feita pela funçao da query4, podemos?*/
+		printf("PRODUTOS NÃO COMPRADOS: %d\n", num_Cat_prod(productNoBuy(fatGlobal)));
+	}
+	/*----------QUERY [7]-----------*/
 	printf("Número de clientes:%d\nNúmero de Produtos:%d\nNúmero de Faturações:%d\nNúmero de gestFilial1:%d\nNúmero de gestFilial2:%d\nNúmero de gestFilial3:%d\n",
 			num_Cat_cliente(clientes), num_Cat_prod(produtos), numFatGlobal(fatGlobal), numGestaoFilial(gestFilial[0]), numGestaoFilial(gestFilial[1]), numGestaoFilial(gestFilial[2]));
 
