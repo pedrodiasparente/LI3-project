@@ -144,13 +144,15 @@ void destroyInfoProd(INFOPROD i){
 int getQuant(INFOPROD i, int mes, char promo){
     if(promo == 'N')
         return ((i -> quantN)[mes]);
-    else
+    else if (promo == 'P')
         return ((i -> quantP)[mes]);
+    else return 0;
 }
 
 void setQuant(INFOPROD i, int mes, int quant, char promo){
     if(promo == 'N')
         (i -> quantN)[mes] += quant;
-    else
+    else if (promo == 'P')
         (i -> quantN)[mes] += quant;
+    else;
 }

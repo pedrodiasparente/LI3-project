@@ -13,6 +13,7 @@
 #include "query6.h"
 #include "query7.h"
 #include "query8.h"
+#include "query9.h"
 #include "catProdutos.h"
 #include "catClientes.h"
 #include "gestaoFilial.h"
@@ -83,7 +84,7 @@ int main() {
 		printQuery7(clientBoughtItems(gestFilial[2], "F2918"));
 	}
 	/*----------QUERY [8]-----------*/
-	if(1) {
+	if(0) {
 		printf("QUERY 8:\n");
 		printf("NUMERO DE VENDAS: %d\n", nVendasIntervalo(fatGlobal,1,3));
 		printf("TOTAL FATURADO: %f\n", totFatIntervalo(fatGlobal,1,3));
@@ -91,6 +92,11 @@ int main() {
 	/*----------QUERY [9]-----------*/
 	if(1) {
 		printf("QUERY 9:\n");
+		printf("LISTA DE CLIENTES:\n");
+		if(/*promo is N*/1){
+			print_Cat_client(clientBuyProdFilial(gestFilial[0], "GQ1432", 'N'));
+			printf("NÚMERO DE CLIENTES: %d\n", num_Cat_cliente(clientBuyProdFilial(gestFilial[0], "GQ1432", 'N')));
+		}
 	}
 	/*----------QUERY [10]----------*/
 	if(1) {
