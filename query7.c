@@ -4,43 +4,34 @@
 #include "gestaoFilial.h"
 #include "userData.h"
 
-void printQuery7(GArray * array){
+static int print7Aux(void * prod, void * infoProd, void * infoProdReturn){
     int i;
-    int currentQuant;
 
-    currentQuant = g_array_index (array, int , 0);
-
-    for(i = 1; currentQuant != 0; i++){
-        printf("| %d | ", currentQuant);
-        currentQuant = g_array_index (array, int , i);
+    for(i = 0; i < 12; i++){
+        setQuant(infoProdReturn, i, getQuant(infoProd, i, 'N'), 'N');
+        setQuant(infoProdReturn, i, getQuant(infoProd, i, 'P'), 'N');
     }
-    printf("\n");
-}
-
-static gboolean addArray(void * prodKey, void * infoprod, void *data){
-	int * soma;
-	int mes;
-	GArray * array;
-	soma = (int *)getData2(data);
-	array = (GArray *) getData1(data);
-	for(mes = 1; mes < 13; mes++) {
-		(* soma) = getQuant(infoprod, mes, 'P') + getQuant(infoprod, mes, 'N');
-	}
-
-	g_array_append_val(array, (* soma));
 
     return FALSE;
 }
 
-GArray * clientBoughtItems(GESTAOFILIAL gf, char *client){
-    GArray * array = g_array_sized_new(TRUE, TRUE, sizeof(int), 200);
-    int soma;
-    DATA d;
-    d = data(array, &soma);
-    GESTAOCLIENTE gc = newGestaoCliente();
+void printQuery7(GESTAOCLIENTE gc){
+    INFOPROD p;
+    int i;
+
+    p = newInfoProd();
+
+    traverseGestClient(gc, print7Aux, p);
+    for(i = 0; i < 12; i++)
+        printf("|#%d = %d |", (i + 1), getQuant(p, i, 'N'));
+    printf("\n");
+}
+
+
+GESTAOCLIENTE clientBoughtItems(GESTAOFILIAL gf, char *client){
+    GESTAOCLIENTE gc;
+
     gc = lookupGestaoFilial(gf, client);
 
-    traverseGestClient(gc, addArray, d);
-
-    return array;
+    return gc;
 }

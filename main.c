@@ -43,7 +43,7 @@ int main() {
     if(0) {
     	printf("QUERY 2: Forneça uma letra (maiúscula)\n");
 		scanf("%c",&query2Letra);
-    	printQuery2(findProducts(produtos, query2Letra));
+    	printf("%d clientes QUERY1\n", num_Cat_prod(findProducts(produtos, query2Letra)));
     }
 	/*----------QUERY [3]-----------*/
 	if(0){

@@ -1,8 +1,8 @@
 #ifndef QUERY7_H
 #define QUERY7_H
 
-void printQuery7(GArray * array);
+void printQuery7(GESTAOCLIENTE gc);
 
-GArray * clientBoughtItems(GESTAOFILIAL gf, char *client);
+GESTAOCLIENTE clientBoughtItems(GESTAOFILIAL gf, char *client);
 
 #endif
