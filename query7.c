@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <glib.h>
 #include "gestaoFilial.h"
-#include "userData.h"
 
 static int print7Aux(void * prod, void * infoProd, void * infoProdReturn){
     int i;
