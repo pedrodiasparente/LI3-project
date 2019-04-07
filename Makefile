@@ -2,10 +2,10 @@ CC = gcc
 LDLIBS = `pkg-config --libs glib-2.0` `pkg-config --cflags --libs gmodule-2.0`
 CFLAGS = -O3 -Wall -ansi `pkg-config --cflags glib-2.0` `pkg-config --cflags --libs gmodule-2.0`
 
-sgv: leitura.o clientNoBuy.o vendas.o userData.o main.o query2.o faturacao.o gestaoFilial.o catProdutos.o catClientes.o query3.o query4.o query5.o query6.o
-	$(CC) $(CFLAGS) main.o leitura.o clientNoBuy.o vendas.o userData.o query2.o faturacao.o gestaoFilial.o catProdutos.o catClientes.o query3.o query4.o query5.o query6.o -o sgv $(LDLIBS)
+sgv: leitura.o clientNoBuy.o vendas.o userData.o main.o query2.o faturacao.o gestaoFilial.o catProdutos.o catClientes.o query3.o query4.o query5.o query6.o query7.o
+	$(CC) $(CFLAGS) main.o leitura.o clientNoBuy.o vendas.o userData.o query2.o faturacao.o gestaoFilial.o catProdutos.o catClientes.o query3.o query4.o query5.o query6.o query7.o -o sgv $(LDLIBS)
 
-main.o: clientNoBuy.h vendas.h leitura.h catProdutos.h catClientes.h faturacao.h gestaoFilial.h query2.h query3.h query4.h query5.h query6.h
+main.o: clientNoBuy.h vendas.h leitura.h catProdutos.h catClientes.h faturacao.h gestaoFilial.h query2.h query3.h query4.h query5.h query6.h query7.h
 	$(CC) $(CFLAGS) -c main.c $(LDLIBS)
 
 leitura.o: leitura.c leitura.h vendas.h faturacao.h catProdutos.h catClientes.h gestaoFilial.h
@@ -25,6 +25,9 @@ query5.o: query5.c query5.h gestaoFilial.h catClientes.h userData.h
 
 query6.o: query6.c query6.h gestaoFilial.h catClientes.h userData.h
 	$(CC) $(CFLAGS) -c query6.c $(LDLIBS)
+
+query7.o: query7.c query7.h gestaoFilial.h gestaoFilial.h userData.h
+	$(CC) $(CFLAGS) -c query7.c $(LDLIBS)
 
 clientNoBuy.o: userData.h clientNoBuy.h clientNoBuy.c
 	$(CC) $(CFLAGS) -c clientNoBuy.c $(LDLIBS)

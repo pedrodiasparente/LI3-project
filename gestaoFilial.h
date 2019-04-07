@@ -29,6 +29,8 @@ gpointer lookupProdutoCliente(GESTAOCLIENTE g, char * prod);
 
 int numProdutosCliente(GESTAOCLIENTE g);
 
+void traverseGestClient(GESTAOCLIENTE g, GTraverseFunc func, gpointer user_data);
+
 void destroyGestaoCliente(GESTAOCLIENTE gc);
 
 INFOPROD newInfoProd();

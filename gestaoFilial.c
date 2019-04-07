@@ -106,6 +106,10 @@ int numProdutosCliente(GESTAOCLIENTE g){
     return (g_tree_nnodes(g -> produtos));
 }
 
+void traverseGestClient(GESTAOCLIENTE g, GTraverseFunc func, gpointer user_data){
+    g_tree_foreach(g -> produtos, func, user_data);
+}
+
 void destroyGestaoCliente(GESTAOCLIENTE gc){
     g_tree_destroy (gc -> produtos);
     free(gc);

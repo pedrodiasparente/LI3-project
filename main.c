@@ -11,6 +11,7 @@
 #include "query4.h"
 #include "query5.h"
 #include "query6.h"
+#include "query7.h"
 #include "catProdutos.h"
 #include "catClientes.h"
 #include "gestaoFilial.h"
@@ -42,7 +43,7 @@ int main() {
     if(0) {
     	printf("QUERY 2: Forneça uma letra (maiúscula)\n");
 		scanf("%c",&query2Letra);
-    	printArray(findProducts(produtos, query2Letra));
+    	printQuery2(findProducts(produtos, query2Letra));
     }
 	/*----------QUERY [3]-----------*/
 	if(0){
@@ -68,15 +69,44 @@ int main() {
 		print_Cat_client(clientAll(gestFilial));
 	}
     /*----------QUERY [6]-----------*/
-    if(1) {
+    if(0) {
     	printf("QUERY 6:\n");
     	printf("CLIENTES QUE NÃO COMPRARAM: %d\n", num_Cat_cliente(noClient(gestFilial,clientes)));
     	/*esta parte é feita pela funçao da query4, podemos?*/
 		printf("PRODUTOS NÃO COMPRADOS: %d\n", num_Cat_prod(productNoBuy(fatGlobal)));
 	}
 	/*----------QUERY [7]-----------*/
+	if(1) {
+		printf("QUERY 7:\n");
+		printQuery7(clientBoughtItems(gestFilial[0], "F2918"));
+		printQuery7(clientBoughtItems(gestFilial[1], "F2918"));
+		printQuery7(clientBoughtItems(gestFilial[2], "F2918"));
+	}
+	/*----------QUERY [8]-----------*/
+	if(1) {
+		printf("QUERY 8:\n");
+	}
+	/*----------QUERY [9]-----------*/
+	if(1) {
+		printf("QUERY 9:\n");
+	}
+	/*----------QUERY [10]----------*/
+	if(1) {
+		printf("QUERY 10:\n");
+	}
+	/*----------QUERY [11]----------*/
+	if(1) {
+		printf("QUERY 11:\n");
+	}
+	/*----------QUERY [12]----------*/
+	if(1) {
+		printf("QUERY 12:\n");
+	}
+	/*------------------------------*/
 	printf("Número de clientes:%d\nNúmero de Produtos:%d\nNúmero de Faturações:%d\nNúmero de gestFilial1:%d\nNúmero de gestFilial2:%d\nNúmero de gestFilial3:%d\n",
 			num_Cat_cliente(clientes), num_Cat_prod(produtos), numFatGlobal(fatGlobal), numGestaoFilial(gestFilial[0]), numGestaoFilial(gestFilial[1]), numGestaoFilial(gestFilial[2]));
+
+	printf("\n\nIMPORTANTE MUDAR O GARRAY PARA ENCAPSULADOOOOOOOOOOOOO!!!!!\n\n\n");
 
 	destroyFatGlobal(fatGlobal);
 	for(i = 0; i < 3; i++)

@@ -5,7 +5,7 @@
 #include "userData.h"
 #include "catProdutos.h"
 
-void printArray(GArray * productArray){
+void printQuery2(GArray * productArray){
     int i;
     char * currentProd;
 

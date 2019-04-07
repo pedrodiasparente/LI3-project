@@ -20,7 +20,7 @@ static int exists(void * client, void * cat_client, void * data){
     return FALSE;
 }
 
-CAT_CLIENTES noClient(GESTAOFILIAL gf[], CAT_CLIENTES c){
+CAT_CLIENTES noClient(GESTAOFILIAL * gf, CAT_CLIENTES c){
     CAT_CLIENTES clientNone;
     DATA gfs, gfNcat, d;
 
