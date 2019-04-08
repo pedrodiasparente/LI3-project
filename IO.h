@@ -1,13 +1,13 @@
 #ifndef IO_H
 #define IO_H
 
-void IOinit(int * query);
+int IOinit(int * query);
 
 void inQuery1(char * fichVendas, char * fichProdutos, char * fichClientes);
 
-void outQuery1(FATGLOBAL fg, char * nomeFich);
+void outQuery1(int numVendas, char * nomeFich);
 
-int printProdutos(void * prodkey, void * prodval, void* data);
+int printCat(void * prodkey, void * prodval, void* data);
 
 void inQuery2(char * c);
 

@@ -6,10 +6,10 @@
 #include "faturacao.h"
 #include "gestaoFilial.h"
 
-void getProdutos(CAT_PRODUTOS p);
+void getProdutos(CAT_PRODUTOS p, char * fich);
 
-void getClientes(CAT_CLIENTES c);
+void getClientes(CAT_CLIENTES c, char * fich);
 
-void getVendas(FATGLOBAL fatGlobal, GESTAOFILIAL * gestFilial, CAT_PRODUTOS prod, CAT_CLIENTES client);
+int getVendas(FATGLOBAL fatGlobal, GESTAOFILIAL * gestFilial, CAT_PRODUTOS prod, CAT_CLIENTES client, char * fich);
 
 #endif

@@ -12,12 +12,15 @@
 #include "catProdutos.h"
 #include "catClientes.h"
 
-void getClientes(CAT_CLIENTES c){
+void getClientes(CAT_CLIENTES c, char * fich){
 	FILE * fp;
 	char * niceBuffer, * actualBuffer;
 	char buffer[10];
 
-	fp = fopen("./Ficheiros/Clientes.txt", "r");
+	if(fopen(fich, "r"))
+		fp = fopen(fich, "r");
+	else
+		fp = fopen("./Ficheiros/Clientes.txt", "r");
 
 	while(fgets(buffer, 10, fp)) {
 		niceBuffer = strtok(buffer, "\r\n");
@@ -28,12 +31,15 @@ void getClientes(CAT_CLIENTES c){
 	fclose(fp);
 }
 
-void getProdutos(CAT_PRODUTOS p){
+void getProdutos(CAT_PRODUTOS p, char * fich){
 	FILE * fp;
 	char * niceBuffer, * actualBuffer;
 	char buffer[10];
 
-	fp = fopen("./Ficheiros/Produtos.txt", "r");
+	if(fopen(fich, "r"))
+		fp = fopen(fich, "r");
+	else
+		fp = fopen("./Ficheiros/Produtos.txt", "r");
 
 	while(fgets(buffer, 10, fp)) {
 		niceBuffer = strtok(buffer, "\r\n");
@@ -81,11 +87,11 @@ void getGestaoFilial(GESTAOFILIAL * gestFilial, VENDA v){
 }
 
 /*a getVendas acho que na verdade só está a servir de funçao que faz a getGestaoFilial e getFaturaçao lol*/
-void getVendas(FATGLOBAL fatGlobal, GESTAOFILIAL * gestFilial, CAT_PRODUTOS prod, CAT_CLIENTES client){
+int getVendas(FATGLOBAL fatGlobal, GESTAOFILIAL * gestFilial, CAT_PRODUTOS prod, CAT_CLIENTES client, char * fich){
 	FILE * fp;
 	char * lnBuffer;
 	char buffer[35];
-	int val, i;
+	int val, i, numVendas;
 	VENDA v;
 	FATURACAO currentFat;
 
@@ -93,7 +99,10 @@ void getVendas(FATGLOBAL fatGlobal, GESTAOFILIAL * gestFilial, CAT_PRODUTOS prod
 	for(i = 0; i < 3; i++)
 		foreach_Cat_cliente(client, initGestaoFilial, gestFilial[i]);
 
-	fp = fopen("./Ficheiros/Vendas_1M.txt", "r");
+		if(fopen(fich, "r"))
+			fp = fopen(fich, "r");
+		else
+			fp = fopen("./Ficheiros/Vendas_1M.txt", "r");
 
 	while(fgets(buffer, 35, fp)) {
 		lnBuffer = strdup(buffer);
@@ -106,10 +115,12 @@ void getVendas(FATGLOBAL fatGlobal, GESTAOFILIAL * gestFilial, CAT_PRODUTOS prod
 		free(lnBuffer);
 
 		if (val){
+			numVendas++;
 			getGestaoFilial(gestFilial, v);
 			incNVendas(currentFat, getMes(v), getFilial(v), getPromo(v));
 			somaPrecoTotal(currentFat, getMes(v), getFilial(v), getPreco(v), getPromo(v), getQuantidade(v));
 		}
 		destroyVenda(v);
 	}
+	return numVendas;
 }

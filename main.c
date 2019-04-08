@@ -22,16 +22,16 @@
 #include "gestaoFilial.h"
 
 int main() {
-	int i;
+	int i, done, query, numVendas;
 	FATGLOBAL fatGlobal;
 	GESTAOFILIAL gestFilial[3];
 	CAT_PRODUTOS produtos;
 	CAT_CLIENTES clientes;
 
-	char query2Letra;
-	char query4Prod[6];
-	int query4Mes;
-	int query4Filial;
+	done = 0;
+	char singleChar;
+	char prod[6], fichVendas[30], fichClientes[30], fichProdutos[30];
+	int mes, filial;
 	CAT_PRODUTOS catprodQuery10;
 	CAT_PRODUTOS catprodQuery12;
 
@@ -41,24 +41,35 @@ int main() {
 	clientes = new_Cat_cliente();
 	produtos = new_Cat_prod();
 
-    /*----------QUERY [1]-----------*/
-	getClientes(clientes);
-	getProdutos(produtos);
- 	getVendas(fatGlobal, gestFilial, produtos, clientes);
-    /*----------QUERY [2]-----------*/
-    if(0) {
-    	printf("QUERY 2: Forneça uma letra (maiúscula)\n");
-		scanf("%c",&query2Letra);
-    	printf("%d clientes QUERY1\n", num_Cat_prod(findProducts(produtos, query2Letra)));
-    }
-	/*----------QUERY [3]-----------*/
-	if(0){
-		printf("QUERY 3: Forneça um produto, um mês e uma filial\n");
-		scanf("%s %d %d", query4Prod, &query4Mes, &query4Filial);
-		printf("QUERY 3: VENDAS P: [%d]\n", totalVendasProdMesP(fatGlobal, query4Prod, query4Mes, query4Filial));
-		printf("QUERY 3: VENDAS N: [%d]\n", totalVendasProdMesN(fatGlobal, query4Prod, query4Mes, query4Filial));
-		printf("QUERY 3: FATURACAO P: [%f]\n", totalFatProdMesP(fatGlobal, query4Prod, query4Mes, query4Filial));
-		printf("QUERY 3: FATURACAO N: [%f]\n", totalFatProdMesN(fatGlobal, query4Prod, query4Mes, query4Filial));
+    while(done == 0){
+		IOinit(&query);
+		switch (query) {
+			case 0:
+				done = 1;
+				break;
+			case 1:
+				inQuery1(fichVendas, fichProdutos, fichClientes);
+				getClientes(clientes, fichClientes);
+				getProdutos(produtos, fichProdutos);
+				numVendas = getVendas(fatGlobal, gestFilial, produtos, clientes, fichVendas);
+				outQuery1(numVendas, fichVendas);
+				break;
+			case 2:
+				inQuery2(&singleChar);
+				foreach_Cat_prod(findProducts(produtos, singleChar), printCat, NULL);
+				outQuery2(num_Cat_prod(findProducts(produtos, singleChar)));
+				break;
+			case 3:
+				inQuery3(prod, &mes, &filial);
+				outQuery3(totalVendasProdMesP(fatGlobal,prod,mes,filial),
+						  totalVendasProdMesN(fatGlobal,prod,mes,filial),
+					  	  totalFatProdMesP(fatGlobal,prod,mes,filial),
+					  	  totalFatProdMesN(fatGlobal,prod,mes,filial));
+				break;
+			default:
+				done = 1;
+				break;
+		}
 	}
 	/*----------QUERY [4]-----------*/
 	if(0){
@@ -111,7 +122,7 @@ int main() {
 	if(0) {
 		outQuery10();
 		catprodQuery10 = (prodsMaisComprados(gestFilial, "Y1444", 10));
-		foreach_Cat_prod(catprodQuery10, printProdutos, NULL);
+		foreach_Cat_prod(catprodQuery10, printCat, NULL);
 	}
 	/*----------QUERY [11]----------*/
 	if(0) {
@@ -121,7 +132,7 @@ int main() {
 	if(1) {
 		printf("QUERY 12:\n");
 		catprodQuery12 = (prodsMaisDespesa(gestFilial, "A1444"));
-		foreach_Cat_prod(catprodQuery12, printProdutos, NULL);
+		foreach_Cat_prod(catprodQuery12, printCat, NULL);
 	}
 	/*------------------------------*/
 	printf("Número de clientes:%d\nNúmero de Produtos:%d\nNúmero de Faturações:%d\nNúmero de gestFilial1:%d\nNúmero de gestFilial2:%d\nNúmero de gestFilial3:%d\n",
