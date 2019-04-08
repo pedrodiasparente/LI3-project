@@ -1,3 +1,9 @@
+/**
+ * @file catProdutos.h
+ * @author Grupo LI3 nº33
+ * @date 8 Abril 2019
+ * @brief Funções utilizadas para gerir o catálogo de clientes
+ */
 #ifndef CATPRODUTOS_H
 #define CATPRODUTOS_H
 

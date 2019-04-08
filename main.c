@@ -118,7 +118,7 @@ int main() {
 		printf("QUERY 11:\n");
 	}
 	/*----------QUERY [12]----------*/
-	if(0) {
+	if(1) {
 		printf("QUERY 12:\n");
 		catprodQuery12 = (prodsMaisDespesa(gestFilial, "A1444"));
 		foreach_Cat_prod(catprodQuery12, printProdutos, NULL);

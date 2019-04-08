@@ -72,7 +72,7 @@ CAT_PRODUTOS prodsMaisDespesa(GESTAOFILIAL * gf, char * cliente){
     catProd = new_Cat_prod_ord('f');
     catProdFinal = new_Cat_prod_ord('f');
     d = data(catProdFinal, &num);
-    
+
     gc = lookupGestaoFilial(gf[0], cliente);
     traverseGestClient(gc, addProdOrd, catProd);
 
