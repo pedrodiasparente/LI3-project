@@ -127,7 +127,7 @@ INFOPROD newInfoProd(){
     INFOPROD infoProduto;
     int i;
 
-    infoProduto = malloc(sizeof(INFOPROD));
+    infoProduto = malloc(sizeof(INFOPROD)*4);
 
     (infoProduto -> quantN) = malloc(sizeof(int)*12);
     (infoProduto -> quantP) = malloc(sizeof(int)*12);

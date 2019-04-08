@@ -46,13 +46,13 @@ int main() {
 	getProdutos(produtos);
  	getVendas(fatGlobal, gestFilial, produtos, clientes);
     /*----------QUERY [2]-----------*/
-    if(0) {
+    if(1) {
     	printf("QUERY 2: Forneça uma letra (maiúscula)\n");
 		scanf("%c",&query2Letra);
     	printf("%d clientes QUERY1\n", num_Cat_prod(findProducts(produtos, query2Letra)));
     }
 	/*----------QUERY [3]-----------*/
-	if(0){
+	if(1){
 		printf("QUERY 3: Forneça um produto, um mês e uma filial\n");
 		scanf("%s %d %d", query4Prod, &query4Mes, &query4Filial);
 		printf("QUERY 3: VENDAS P: [%d]\n", totalVendasProdMesP(fatGlobal, query4Prod, query4Mes, query4Filial));
@@ -61,7 +61,7 @@ int main() {
 		printf("QUERY 3: FATURACAO N: [%f]\n", totalFatProdMesN(fatGlobal, query4Prod, query4Mes, query4Filial));
 	}
 	/*----------QUERY [4]-----------*/
-	if(0){
+	if(1){
 		printf("QUERY 4:\n");
 		print_Cat_prod(productNoBuy(fatGlobal));
 		printf("QUERY 4: TOTAL [%d]\n", num_Cat_prod(productNoBuy(fatGlobal)));
@@ -70,32 +70,32 @@ int main() {
 		printf("QUERY 4: F3 [%d]\n", num_Cat_prod(productNoBuyFilial(fatGlobal, 3)));
 	}
 	/*----------QUERY [5]-----------*/
-	if(0) {
+	if(1) {
 		printf("QUERY 5:\n");
 		print_Cat_client(clientAll(gestFilial));
 	}
     /*----------QUERY [6]-----------*/
-    if(0) {
+    if(1) {
     	printf("QUERY 6:\n");
     	printf("CLIENTES QUE NÃO COMPRARAM: %d\n", num_Cat_cliente(noClient(gestFilial,clientes)));
     	/*esta parte é feita pela funçao da query4, podemos?*/
 		printf("PRODUTOS NÃO COMPRADOS: %d\n", num_Cat_prod(productNoBuy(fatGlobal)));
 	}
 	/*----------QUERY [7]-----------*/
-	if(0) {
+	if(1) {
 		printf("QUERY 7:\n");
 		printQuery7(clientBoughtItems(gestFilial[0], "F2918"));
 		printQuery7(clientBoughtItems(gestFilial[1], "F2918"));
 		printQuery7(clientBoughtItems(gestFilial[2], "F2918"));
 	}
 	/*----------QUERY [8]-----------*/
-	if(0) {
+	if(1) {
 		printf("QUERY 8:\n");
 		printf("NUMERO DE VENDAS: %d\n", nVendasIntervalo(fatGlobal,1,3));
 		printf("TOTAL FATURADO: %f\n", totFatIntervalo(fatGlobal,1,3));
 	}
 	/*----------QUERY [9]-----------*/
-	if(0) {
+	if(1) {
 		printf("QUERY 9:\n");
 		printf("LISTA DE CLIENTES:\n");
 		if(/*promo is N*/1){
@@ -109,13 +109,13 @@ int main() {
 		else printf("Introduza uma promoçao válida\n");
 	}
 	/*----------QUERY [10]----------*/
-	if(0) {
+	if(1) {
 		outQuery10();
 		catprodQuery10 = (prodsMaisComprados(gestFilial, "Y1444", 10));
 		foreach_Cat_prod(catprodQuery10, printProdutos, NULL);
 	}
 	/*----------QUERY [11]----------*/
-	if(0) {
+	if(1) {
 		printf("QUERY 11:\n");
 	}
 	/*----------QUERY [12]----------*/
