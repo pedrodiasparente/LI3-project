@@ -41,4 +41,8 @@ int getQuant(INFOPROD i, int mes, char promo);
 
 void setQuant(INFOPROD i, int mes, int quant, char promo);
 
+float getPrecoGF(INFOPROD i, int mes, char promo);
+
+void setPrecoGF(INFOPROD i, int mes, float preco, char promo);
+
 #endif

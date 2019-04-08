@@ -18,6 +18,8 @@ struct gestaoCliente{
 struct infoProduto{
     int *quantP;
     int *quantN;
+    float *precoP;
+    float *precoN;
 };
 
 /*GESTAO DE FILIAL (FUNCOES DE GESTAO DA TREE DE CLIENTES PARA CADA FILIAL)*/
@@ -55,7 +57,6 @@ void insertGestaoFilial(GESTAOFILIAL gf, char *cliente, GESTAOCLIENTE gc){
     g_tree_insert(gf -> clientes, cliente, gc);
 }
 
-/*this one not sure if necessary*/
 void traverseGestFilial(GESTAOFILIAL gf, GTraverseFunc func, gpointer user_data){
     g_tree_foreach(gf -> clientes, func, user_data);
 }
@@ -82,6 +83,10 @@ static void somaProdInfo(INFOPROD produtoData, INFOPROD newProduto){
         setQuant(produtoData, i, getQuant(newProduto, i, 'N'), 'N');
     for(i = 0; i < 12; i++)
         setQuant(produtoData, i, getQuant(newProduto, i, 'P'), 'P');
+    for(i = 0; i < 12; i++)
+        setPrecoGF(produtoData, i, getPrecoGF(newProduto, i, 'N'), 'N');
+    for(i = 0; i < 12; i++)
+        setPrecoGF(produtoData, i, getPrecoGF(newProduto, i, 'P'), 'P');
 
 }
 
@@ -126,10 +131,14 @@ INFOPROD newInfoProd(){
 
     (infoProduto -> quantN) = malloc(sizeof(int)*12);
     (infoProduto -> quantP) = malloc(sizeof(int)*12);
+    (infoProduto -> precoN) = malloc(sizeof(float)*12);
+    (infoProduto -> precoP) = malloc(sizeof(float)*12);
 
     for(i = 0; i < 12; i++){
         (infoProduto -> quantN)[i] = 0;
         (infoProduto -> quantP)[i] = 0;
+        (infoProduto -> precoN)[i] = 0;
+        (infoProduto -> precoP)[i] = 0;
     }
 
     return infoProduto;
@@ -138,6 +147,8 @@ INFOPROD newInfoProd(){
 void destroyInfoProd(INFOPROD i){
     free(i -> quantN);
     free(i -> quantP);
+    free(i -> precoN);
+    free(i -> precoP);
     free(i);
 }
 
@@ -154,5 +165,21 @@ void setQuant(INFOPROD i, int mes, int quant, char promo){
         (i -> quantN)[mes] += quant;
     else if (promo == 'P')
         (i -> quantN)[mes] += quant;
+    else;
+}
+
+float getPrecoGF(INFOPROD i, int mes, char promo){
+    if(promo == 'N')
+        return ((i -> precoN)[mes]);
+    else if (promo == 'P')
+        return ((i -> precoP)[mes]);
+    else return 0;
+}
+
+void setPrecoGF(INFOPROD i, int mes, float preco, char promo){
+    if(promo == 'N')
+        (i -> precoN)[mes] += preco;
+    else if (promo == 'P')
+        (i -> precoN)[mes] += preco;
     else;
 }

@@ -75,6 +75,7 @@ void getGestaoFilial(GESTAOFILIAL * gestFilial, VENDA v){
 	gestCliente = lookupGestaoFilial(gestFilial[getFilial(v)-1], getCliente(v));
 	prodActual = newInfoProd();
 	setQuant(prodActual, getMes(v), getQuantidade(v), getPromo(v));
+	setPrecoGF(prodActual, getMes(v), getPreco(v), getPromo(v));
 
 	addProdutoCliente(gestCliente, prodAux, prodActual);
 }

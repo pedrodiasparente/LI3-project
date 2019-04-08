@@ -17,7 +17,6 @@ static int checkProd(void * quant, void * prodActual, void * prodExists){
     prod = getData2(prodExists);
 
     if(strcmp(prodActual, prod) == 0){
-        printf("Found prod %s with quant %d!\n", prod, *prodQuant);
         *exists = *prodQuant;
         return TRUE;
     }
@@ -49,7 +48,7 @@ static int addProdOrd(void * prod, void * infoProd, void * userdata){
     if(*quantMes != 0){
         remove_Cat_prod_ord(catProds, &exists);
         *quantMes += exists;
-        insert_Cat_prod_ord(catProds, prod, quantMes);
+        insert_Cat_prod_ord_quant(catProds, prod, quantMes);
     }
 
     return FALSE;
@@ -60,7 +59,7 @@ CAT_PRODUTOS prodsMaisComprados(GESTAOFILIAL * gf, char * cliente, int mes){
     CAT_PRODUTOS catProd;
     DATA d;
 
-    catProd = new_Cat_prod_ord();
+    catProd = new_Cat_prod_ord('i');
 
     d = data(catProd, &mes);
 

@@ -16,6 +16,7 @@
 #include "query8.h"
 #include "query9.h"
 #include "query10.h"
+#include "query12.h"
 #include "catProdutos.h"
 #include "catClientes.h"
 #include "gestaoFilial.h"
@@ -32,6 +33,7 @@ int main() {
 	int query4Mes;
 	int query4Filial;
 	CAT_PRODUTOS catprodQuery10;
+	CAT_PRODUTOS catprodQuery12;
 
 	fatGlobal = newFatGlobal();
 	for(i = 0; i < 3; i++)
@@ -107,7 +109,7 @@ int main() {
 		else printf("Introduza uma promoçao válida\n");
 	}
 	/*----------QUERY [10]----------*/
-	if(1) {
+	if(0) {
 		outQuery10();
 		catprodQuery10 = (prodsMaisComprados(gestFilial, "Y1444", 10));
 		foreach_Cat_prod(catprodQuery10, printProdutos, NULL);
@@ -117,13 +119,15 @@ int main() {
 		printf("QUERY 11:\n");
 	}
 	/*----------QUERY [12]----------*/
-	if(0) {
+	if(1) {
 		printf("QUERY 12:\n");
+		catprodQuery12 = (prodsMaisDespesa(gestFilial, "A1444"));
+		foreach_Cat_prod(catprodQuery12, printProdutos, NULL);
 	}
 	/*------------------------------*/
-	/*printf("Número de clientes:%d\nNúmero de Produtos:%d\nNúmero de Faturações:%d\nNúmero de gestFilial1:%d\nNúmero de gestFilial2:%d\nNúmero de gestFilial3:%d\n",
+	printf("Número de clientes:%d\nNúmero de Produtos:%d\nNúmero de Faturações:%d\nNúmero de gestFilial1:%d\nNúmero de gestFilial2:%d\nNúmero de gestFilial3:%d\n",
 			num_Cat_cliente(clientes), num_Cat_prod(produtos), numFatGlobal(fatGlobal), numGestaoFilial(gestFilial[0]), numGestaoFilial(gestFilial[1]), numGestaoFilial(gestFilial[2]));
-*/
+
 	destroyFatGlobal(fatGlobal);
 	for(i = 0; i < 3; i++)
 		destroyGestaoFilial(gestFilial[i]);
