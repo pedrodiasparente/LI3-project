@@ -1,13 +1,12 @@
+#define _GNU_SOURCE 1
+
 #include <stdio.h>
 #include <glib.h>
 #include <gmodule.h>
-
+#include <string.h>
 
 static void inQuery1Aux(char * fich, char * itemName){
-    int findFicheiro, scanned ;
     char item[40];
-
-    scanned = 0;
 
     printf("\nPor favor insira a localização do ficheiro de %s: (0 para default)\n", itemName);
     scanf("%s", item);
@@ -31,16 +30,16 @@ void inQuery1(char * fichVendas, char * fichProdutos, char * fichClientes){
 	printf("\nFicheiros de input escolhidos\n");
 }
 
-void outQuery1(FATGLOBAL fg, char * nomeFich){
+/*void outQuery1(FATGLOBAL fg, char * nomeFich){
     int numVendas, numProds, numClientes;
 
     traverseFatGlobal(fg, checkNVendas, &numVendas);
     printf(">NÚMERO VENDAS = [%d]\n lidas do ficheiro: \"%s\"\n", numVendas, nomeFich);
 
 }
-
+*/
 int printProdutos(void * prodkey, void * prodval, void* data){
-    printf("%s\n", prodVal)
+    printf("%s\n", (char *) prodval);
     return 0;
 }
 
@@ -52,10 +51,10 @@ void inQuery2(char * c){
 
 void outQuery2(int numP){
     printf("\n[QUERY 2] (->)\n");
-    printf("\n>NÚMERO DE PRODUTOS: %d", numP)
+    printf("\n>NÚMERO DE PRODUTOS: %d", numP);
 }
 
-void inQuery3(char * query3Prod, int * query3Prod, int * query3Prod){
+void inQuery3(char * query3Prod, int * query3Mes, int * query3Filial){
     printf("\n[QUERY 3] (<-)\n");
     printf("Forneça um produto, um mês e uma filial(Separados por um espaço)\n");
     scanf("%s %d %d",query3Prod, query3Mes, query3Filial);
@@ -88,5 +87,10 @@ void outQuery4(int total, int f1, int f2, int f3, int modo){
 }
 
 void outQuery6(){
+
+}
+
+void outQuery10(){
+    printf("\n[QUERY 10] (->)\n");
 
 }

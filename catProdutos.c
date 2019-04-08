@@ -9,6 +9,26 @@ struct cat_produtos {
 	GTree * produtos;
 };
 
+static int compInt(void * a, void * b){
+	int * ca, * cb;
+	ca = a;
+	cb = b;
+	if(*ca < *cb) return 1;
+	if(*ca > *cb) return -1;
+	else return 0;
+}
+
+CAT_PRODUTOS new_Cat_prod_ord(){
+
+    CAT_PRODUTOS p = malloc(sizeof(CAT_PRODUTOS));
+
+    GTree * produtos = g_tree_new_full((GCompareDataFunc) compInt,NULL, (GDestroyNotify) free, (GDestroyNotify) free);
+
+    p->produtos = produtos;
+
+    return p;
+}
+
 CAT_PRODUTOS new_Cat_prod(){
 
     CAT_PRODUTOS p = malloc(sizeof(CAT_PRODUTOS));
@@ -27,6 +47,18 @@ void destroy_Cat_prod(CAT_PRODUTOS p){
 
 void insert_Cat_prod(CAT_PRODUTOS p, char *produto){
 	g_tree_insert(p->produtos, produto, produto);
+}
+
+void insert_Cat_prod_ord(CAT_PRODUTOS p, char *produto, int * quant){
+	g_tree_insert(p->produtos, quant, produto);
+}
+
+void remove_Cat_prod(CAT_PRODUTOS p, char * prod){
+	g_tree_remove(p->produtos, prod);
+}
+
+void remove_Cat_prod_ord(CAT_PRODUTOS p, int * key){
+	g_tree_remove(p->produtos, key);
 }
 
 int lookup_Cat_prod(CAT_PRODUTOS p, char *produto){

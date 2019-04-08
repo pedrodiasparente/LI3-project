@@ -6,6 +6,7 @@
 #include "vendas.h"
 #include "clientNoBuy.h"
 #include "leitura.h"
+#include "IO.h"
 #include "query2.h"
 #include "query3.h"
 #include "query4.h"
@@ -14,6 +15,7 @@
 #include "query7.h"
 #include "query8.h"
 #include "query9.h"
+#include "query10.h"
 #include "catProdutos.h"
 #include "catClientes.h"
 #include "gestaoFilial.h"
@@ -29,6 +31,7 @@ int main() {
 	char query4Prod[6];
 	int query4Mes;
 	int query4Filial;
+	CAT_PRODUTOS catprodQuery10;
 
 	fatGlobal = newFatGlobal();
 	for(i = 0; i < 3; i++)
@@ -90,7 +93,7 @@ int main() {
 		printf("TOTAL FATURADO: %f\n", totFatIntervalo(fatGlobal,1,3));
 	}
 	/*----------QUERY [9]-----------*/
-	if(1) {
+	if(0) {
 		printf("QUERY 9:\n");
 		printf("LISTA DE CLIENTES:\n");
 		if(/*promo is N*/1){
@@ -105,20 +108,22 @@ int main() {
 	}
 	/*----------QUERY [10]----------*/
 	if(1) {
-		printf("QUERY 10:\n");
+		outQuery10();
+		catprodQuery10 = (prodsMaisComprados(gestFilial, "Y1444", 10));
+		foreach_Cat_prod(catprodQuery10, printProdutos, NULL);
 	}
 	/*----------QUERY [11]----------*/
-	if(1) {
+	if(0) {
 		printf("QUERY 11:\n");
 	}
 	/*----------QUERY [12]----------*/
-	if(1) {
+	if(0) {
 		printf("QUERY 12:\n");
 	}
 	/*------------------------------*/
-	printf("Número de clientes:%d\nNúmero de Produtos:%d\nNúmero de Faturações:%d\nNúmero de gestFilial1:%d\nNúmero de gestFilial2:%d\nNúmero de gestFilial3:%d\n",
+	/*printf("Número de clientes:%d\nNúmero de Produtos:%d\nNúmero de Faturações:%d\nNúmero de gestFilial1:%d\nNúmero de gestFilial2:%d\nNúmero de gestFilial3:%d\n",
 			num_Cat_cliente(clientes), num_Cat_prod(produtos), numFatGlobal(fatGlobal), numGestaoFilial(gestFilial[0]), numGestaoFilial(gestFilial[1]), numGestaoFilial(gestFilial[2]));
-
+*/
 	destroyFatGlobal(fatGlobal);
 	for(i = 0; i < 3; i++)
 		destroyGestaoFilial(gestFilial[i]);
