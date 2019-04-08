@@ -97,6 +97,11 @@ int main() {
 			print_Cat_client(clientBuyProdFilial(gestFilial[0], "GQ1432", 'N'));
 			printf("NÚMERO DE CLIENTES: %d\n", num_Cat_cliente(clientBuyProdFilial(gestFilial[0], "GQ1432", 'N')));
 		}
+		else if (/*promo is P*/0) {
+			print_Cat_client(clientBuyProdFilial(gestFilial[0], "GQ1432", 'P'));
+			printf("NÚMERO DE CLIENTES: %d\n", num_Cat_cliente(clientBuyProdFilial(gestFilial[0], "GQ1432", 'P')));
+		}
+		else printf("Introduza uma promoçao válida\n");
 	}
 	/*----------QUERY [10]----------*/
 	if(1) {

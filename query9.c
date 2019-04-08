@@ -6,19 +6,34 @@
 #include "catClientes.h"
 #include "userData.h"
 
-
-static int clientBuyProdFilialAux(void * client, void * gestClient, void * data) {
+static int clientBuyProdFilialNAux(void * client, void * gestClient, void * data) {
 	INFOPROD info;
-	char* prod = getData1(getData2(data));
-	char* aux = getData2(getData2(data));
+	char* prod = getData2(data);;
 	int mes, exists = 0;
-	char promo = aux[0];
 
 	info = lookupProdutoCliente((GESTAOCLIENTE) gestClient, prod);
-	if (info != NULL) {
 	
+	if (info != NULL) {
 		for(mes = 0; mes < 12; mes++)
-			if(getQuant(info, mes, promo) != 0)
+			if(getQuant(info, mes, 'N') != 0)
+				exists = 1;
+
+		if(exists) insert_Cat_cliente(getData1(data), client);
+
+	}
+	return FALSE;
+}
+
+static int clientBuyProdFilialPAux(void * client, void * gestClient, void * data) {
+	INFOPROD info;
+	char* prod = getData2(data);
+	int mes, exists = 0;
+
+	info = lookupProdutoCliente((GESTAOCLIENTE) gestClient, prod);
+
+	if (info != NULL) {
+		for(mes = 0; mes < 12; mes++)
+			if(getQuant(info, mes, 'P') != 0)
 				exists = 1;
 
 		if(exists) insert_Cat_cliente(getData1(data), client);
@@ -30,11 +45,13 @@ static int clientBuyProdFilialAux(void * client, void * gestClient, void * data)
 CAT_CLIENTES clientBuyProdFilial(GESTAOFILIAL gf, char* prod, char promo) {
 	CAT_CLIENTES clients;
 	clients = new_Cat_cliente();
-	DATA d, prodPromo;
-	prodPromo = data(prod,&promo);
-	d = data(clients, prodPromo);
+	DATA d;
+	d = data(clients, prod);
 
-	traverseGestFilial(gf, clientBuyProdFilialAux, d);
+	if (promo == 'N')
+		traverseGestFilial(gf, clientBuyProdFilialNAux, d);
+	else 
+		traverseGestFilial(gf, clientBuyProdFilialPAux, d);
 
 	return clients;
 }
