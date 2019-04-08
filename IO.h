@@ -35,7 +35,7 @@ void outQuery8(int vendas, float faturado);
 
 void inQuery9(char * produto, int * filial);
 
-void outQuery9(int numP, int numN);
+void outQuery9(int num, char promo);
 
 void inQuery10(char * produto, int * filial);
 
@@ -43,7 +43,7 @@ void outQuery10();
 
 void inQuery12(char * cliente);
 
-void outQuery12(char * cliente);
+void outQuery12();
 
 
 #endif

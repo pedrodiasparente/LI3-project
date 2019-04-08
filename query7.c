@@ -3,7 +3,7 @@
 #include <glib.h>
 #include "gestaoFilial.h"
 
-static int print7Aux(void * prod, void * infoProd, void * infoProdReturn){
+static int somaProdsCliente(void * prod, void * infoProd, void * infoProdReturn){
     int i;
 
     for(i = 0; i < 12; i++){
@@ -14,23 +14,16 @@ static int print7Aux(void * prod, void * infoProd, void * infoProdReturn){
     return FALSE;
 }
 
-void printQuery7(GESTAOCLIENTE gc){
+
+int * clientBoughtItems(GESTAOFILIAL gf, char *client){
+    GESTAOCLIENTE gc;
     INFOPROD p;
-    int i;
 
     p = newInfoProd();
 
-    traverseGestClient(gc, print7Aux, p);
-    for(i = 0; i < 12; i++)
-        printf("|#%d = %d |", (i + 1), getQuant(p, i, 'N'));
-    printf("\n");
-}
-
-
-GESTAOCLIENTE clientBoughtItems(GESTAOFILIAL gf, char *client){
-    GESTAOCLIENTE gc;
-
     gc = lookupGestaoFilial(gf, client);
 
-    return gc;
+    traverseGestClient(gc, somaProdsCliente, p);
+
+    return getMesN(p);
 }

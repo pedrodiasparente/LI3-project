@@ -151,6 +151,10 @@ void destroyInfoProd(INFOPROD i){
     free(i);
 }
 
+int * getMesN(INFOPROD i){
+    return(i -> quantN);
+}
+
 int getQuant(INFOPROD i, int mes, char promo){
     if(promo == 'N')
         return ((i -> quantN)[mes]);

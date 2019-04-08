@@ -112,6 +112,13 @@ INFOPROD newInfoProd();
 void destroyInfoProd(INFOPROD i);
 
 /**
+ * @brief Função que dá o array do INFOPROD.
+ *
+ * @return Array do INFOPROD.
+ */
+int * getMesN(INFOPROD i);
+
+/**
  * @brief Função que calcula a quantidade de um produto num dado mês com ou sem promoção.
  *
  * @return Número de produtos num dado mês com ou sem promoção.

@@ -4,7 +4,6 @@
 #include <glib.h>
 #include <gmodule.h>
 #include "vendas.h"
-#include "clientNoBuy.h"
 #include "leitura.h"
 #include "IO.h"
 #include "query2.h"
@@ -30,11 +29,9 @@ int main() {
 
 	done = 0;
 	char singleChar;
-	char prod[6], fichVendas[30], fichClientes[30], fichProdutos[30];
-	int mes, filial;
-	CAT_PRODUTOS catprodQuery10;
-	CAT_PRODUTOS catprodQuery12;
-
+	char prod[6], cliente[5], fichVendas[30], fichClientes[30], fichProdutos[30];
+	int mes, mes2, filial, modo;
+	
 	fatGlobal = newFatGlobal();
 	for(i = 0; i < 3; i++)
 		gestFilial[i] = newGestaoFilial();
@@ -66,77 +63,53 @@ int main() {
 					  	  totalFatProdMesP(fatGlobal,prod,mes,filial),
 					  	  totalFatProdMesN(fatGlobal,prod,mes,filial));
 				break;
+			case 4:
+				inQuery4(&modo);
+				outQuery4(num_Cat_prod(productNoBuy(fatGlobal)),
+						  num_Cat_prod(productNoBuyFilial(fatGlobal, 1)),
+					  	  num_Cat_prod(productNoBuyFilial(fatGlobal, 2)),
+					      num_Cat_prod(productNoBuyFilial(fatGlobal, 3)),
+					  	  modo);
+				break;
+			case 5:
+				foreach_Cat_cliente(clientAll(gestFilial, clientes), printCat, NULL);
+				outQuery5();
+				break;
+			case 6:
+				outQuery6(num_Cat_cliente(noClient(gestFilial,clientes)),num_Cat_prod(productNotBought(fatGlobal)));
+				break;
+			case 7:
+				inQuery7(cliente);
+				outQuery7(clientBoughtItems(gestFilial[0], cliente));
+				outQuery7(clientBoughtItems(gestFilial[1], cliente));
+				outQuery7(clientBoughtItems(gestFilial[2], cliente));
+				break;
+			case 8:
+				inQuery8(&mes, &mes2);
+				outQuery8(nVendasIntervalo(fatGlobal,mes,mes2), totFatIntervalo(fatGlobal,mes,mes2));
+				break;
+			case 9:
+				inQuery9(prod, &filial);
+				outQuery9(num_Cat_cliente(clientBuyProdFilial(gestFilial[filial-1], prod, 'P')), 'P');
+				foreach_Cat_cliente(clientBuyProdFilial(gestFilial[filial], prod, 'P'),printCat, NULL);
+				outQuery9(num_Cat_cliente(clientBuyProdFilial(gestFilial[filial-1], prod, 'N')), 'N');
+				foreach_Cat_cliente(clientBuyProdFilial(gestFilial[filial], prod, 'N'),printCat, NULL);
+				break;
+			case 10:
+				inQuery10(cliente, &mes);
+				outQuery10();
+				foreach_Cat_prod(prodsMaisComprados(gestFilial, cliente, mes),printCat, NULL);
+				break;
+			case 12:
+				inQuery12(cliente);
+				outQuery12();
+				foreach_Cat_prod(prodsMaisDespesa(gestFilial, cliente),printCat,NULL);
+				break;
 			default:
 				done = 1;
 				break;
 		}
 	}
-	/*----------QUERY [4]-----------*/
-	if(0){
-		printf("QUERY 4:\n");
-		print_Cat_prod(productNoBuy(fatGlobal));
-		printf("QUERY 4: TOTAL [%d]\n", num_Cat_prod(productNoBuy(fatGlobal)));
-		printf("QUERY 4: F1 [%d]\n", num_Cat_prod(productNoBuyFilial(fatGlobal, 1)));
-		printf("QUERY 4: F2 [%d]\n", num_Cat_prod(productNoBuyFilial(fatGlobal, 2)));
-		printf("QUERY 4: F3 [%d]\n", num_Cat_prod(productNoBuyFilial(fatGlobal, 3)));
-	}
-	/*----------QUERY [5]-----------*/
-	if(0) {
-		printf("QUERY 5:\n");
-		print_Cat_client(clientAll(gestFilial, clientes));
-	}
-    /*----------QUERY [6]-----------*/
-    if(1) {
-    	printf("QUERY 6:\n");
-    	printf("CLIENTES QUE NÃO COMPRARAM: %d\n", num_Cat_cliente(noClient(gestFilial,clientes)));
-		printf("PRODUTOS NÃO COMPRADOS: %d\n", num_Cat_prod(productNotBought(fatGlobal)));
-	}
-	/*----------QUERY [7]-----------*/
-	if(0) {
-		printf("QUERY 7:\n");
-		printQuery7(clientBoughtItems(gestFilial[0], "F2918"));
-		printQuery7(clientBoughtItems(gestFilial[1], "F2918"));
-		printQuery7(clientBoughtItems(gestFilial[2], "F2918"));
-	}
-	/*----------QUERY [8]-----------*/
-	if(0) {
-		printf("QUERY 8:\n");
-		printf("NUMERO DE VENDAS: %d\n", nVendasIntervalo(fatGlobal,1,3));
-		printf("TOTAL FATURADO: %f\n", totFatIntervalo(fatGlobal,1,3));
-	}
-	/*----------QUERY [9]-----------*/
-	if(0) {
-		printf("QUERY 9:\n");
-		printf("LISTA DE CLIENTES:\n");
-		if(/*promo is N*/1){
-			print_Cat_client(clientBuyProdFilial(gestFilial[0], "GQ1432", 'N'));
-			printf("NÚMERO DE CLIENTES: %d\n", num_Cat_cliente(clientBuyProdFilial(gestFilial[0], "GQ1432", 'N')));
-		}
-		else if (/*promo is P*/0) {
-			print_Cat_client(clientBuyProdFilial(gestFilial[0], "GQ1432", 'P'));
-			printf("NÚMERO DE CLIENTES: %d\n", num_Cat_cliente(clientBuyProdFilial(gestFilial[0], "GQ1432", 'P')));
-		}
-		else printf("Introduza uma promoçao válida\n");
-	}
-	/*----------QUERY [10]----------*/
-	if(0) {
-		outQuery10();
-		catprodQuery10 = (prodsMaisComprados(gestFilial, "Y1444", 10));
-		foreach_Cat_prod(catprodQuery10, printCat, NULL);
-	}
-	/*----------QUERY [11]----------*/
-	if(0) {
-		printf("QUERY 11:\n");
-	}
-	/*----------QUERY [12]----------*/
-	if(1) {
-		printf("QUERY 12:\n");
-		catprodQuery12 = (prodsMaisDespesa(gestFilial, "A1444"));
-		foreach_Cat_prod(catprodQuery12, printCat, NULL);
-	}
-	/*------------------------------*/
-	printf("Número de clientes:%d\nNúmero de Produtos:%d\nNúmero de Faturações:%d\nNúmero de gestFilial1:%d\nNúmero de gestFilial2:%d\nNúmero de gestFilial3:%d\n",
-			num_Cat_cliente(clientes), num_Cat_prod(produtos), numFatGlobal(fatGlobal), numGestaoFilial(gestFilial[0]), numGestaoFilial(gestFilial[1]), numGestaoFilial(gestFilial[2]));
 
 	destroyFatGlobal(fatGlobal);
 	for(i = 0; i < 3; i++)

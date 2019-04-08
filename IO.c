@@ -6,19 +6,19 @@
 #include <string.h>
 
 int IOinit(int * query){
-    printf("Selecionar querie a utilizar:\n");
+    printf("\n\n\nSelecionar query a utilizar:\n");
     printf("[1]-Query1:\n");
     printf("[2]-Query2:\n");
     printf("[3]-Query3:\n");
     printf("[4]-Query4:\n");
     printf("[5]-Query5:\n");
-    printf("[6]-Querie6:\n");
-    printf("[7]-Querie7:\n");
-    printf("[8]-Querie8:\n");
-    printf("[9]-Querie9:\n");
-    printf("[10]-Querie10:\n");
-    printf("[11]-Querie11 (not working):\n");
-    printf("[12]-Querie12:\n");
+    printf("[6]-Query6:\n");
+    printf("[7]-Query7:\n");
+    printf("[8]-Query8:\n");
+    printf("[9]-Query9:\n");
+    printf("[10]-Query10:\n");
+    printf("[11]-Query11 (not working):\n");
+    printf("[12]-Query12:\n");
     printf("\n");
 
     scanf("%d", query);
@@ -91,7 +91,7 @@ void outQuery3(int vendasP, int vendasN, float fatP, float fatN){
 void inQuery4(int * modo){
     printf("\n[QUERY 4] (<-)\n");
     printf("Procurar por:\n Total-[0] (default)\nFilial-[1]\n");
-    scanf("%d", modo);
+    scanf("\n%d", modo);
 }
 
 
@@ -117,22 +117,24 @@ void outQuery6(int client, int prod){
 }
 
 void inQuery7(char * cliente){
-    printf("\n[QUERY 3] (<-)\n");
+    printf("\n[QUERY 7] (<-)\n");
     printf("Insira cliente a procurar\n");
-    scanf("%s", cliente);
+    scanf("\n%s", cliente);
 }
 
 void outQuery7(int * prodMes){
     int i;
+    printf("\n[QUERY 7] (->)\n");
 
     for(i = 0; i < 12; i++)
         printf("|[Mes %d] = %d |", (i + 1), prodMes[i]);
+    printf("\n");
 }
 
 void inQuery8(int * li, int * ls){
     printf("\n[QUERY 8] (<-)\n");
     printf("Forneça um limite iferior e superior (Separados por um espaço)\n");
-    scanf("%d %d", li, ls);
+    scanf("\n%d %d", li, ls);
 }
 
 void outQuery8(int vendas, float faturado){
@@ -141,22 +143,26 @@ void outQuery8(int vendas, float faturado){
     printf("TOTAL FATURADO: %f\n", faturado);
 }
 
-void inQuery9(char * produto, int * filial, char * promo){
+void inQuery9(char * produto, int * filial){
     printf("\n[QUERY 9] (<-)\n");
     printf("Forneça um produto e uma filial (Separados por um espaço)\n");
-    scanf("%s %d %c", produto, filial, promo);
+    scanf("\n%s %d", produto, filial);
 }
 
-void outQuery9(int numP, int numN){
+void outQuery9(int num, char promo){
     printf("\n[QUERY 9] (->)\n");
-    printf("NÚMERO DE CLIENTES N: %d\n", numN);
-    printf("NÚMERO DE CLIENTES P: %d\n", numP);
+    if (promo == 'P'){
+        printf("NÚMERO DE CLIENTES P: %d\n", num);
+    }
+    if (promo == 'N'){
+        printf("NÚMERO DE CLIENTES N: %d\n", num);
+    }
 }
 
-void inQuery10(char * produto, int * filial){
+void inQuery10(char * cliente, int * mes){
     printf("\n[QUERY 9] (<-)\n");
-    printf("Forneça um produto e uma filial (Separados por um espaço)\n");
-    scanf("%s %d", produto, filial);
+    printf("Forneça um Cliente e um mês (Separados por um espaço)\n");
+    scanf("\n%s %d", cliente, mes);
 }
 
 void outQuery10(){
@@ -169,8 +175,6 @@ void inQuery12(char * cliente){
     scanf("%s", cliente);
 }
 
-void outQuery12(char * cliente){
+void outQuery12(){
     printf("\n[QUERY 12] (->)\n");
-    printf("Forneça um cliente\n");
-    scanf("%s", cliente);
 }

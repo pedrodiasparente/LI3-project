@@ -7,14 +7,11 @@
 #ifndef QUERY7_H
 #define QUERY7_H
 
-
-void printQuery7(GESTAOCLIENTE gc);
-
 /**
  * @brief Função que uma GESTAOCLIENTE com os produtos comprados por um dado cliente.
  *
  * @return GESTAOCLIENTE com produtos comprados
  */
-GESTAOCLIENTE clientBoughtItems(GESTAOFILIAL gf, char *client);
+int * clientBoughtItems(GESTAOFILIAL gf, char *client);
 
 #endif
