@@ -106,7 +106,6 @@ gpointer lookupProdutoCliente(GESTAOCLIENTE g, char * prod){
     return (g_tree_lookup(g -> produtos, prod));
 }
 
-/*this one not sure if necessary*/
 int numProdutosCliente(GESTAOCLIENTE g){
     return (g_tree_nnodes(g -> produtos));
 }

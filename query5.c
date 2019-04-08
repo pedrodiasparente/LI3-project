@@ -5,30 +5,32 @@
 #include "gestaoFilial.h"
 #include "userData.h"
 
-static int exists(void * client, void * gf1, void * data){
-	GESTAOFILIAL gf2, gf3;
+static int exists(void * client, void * value, void * data){
+	GESTAOFILIAL *gfs;
+    GESTAOFILIAL gf1, gf2, gf3;
 	CAT_CLIENTES clientsTodas;
 	clientsTodas = getData1(data);
-	gf2 = getData1(getData2(data));
-	gf3 = getData2(getData2(data));
+	gfs = getData2(data);
+    gf1 = gfs[0];
+    gf2 = gfs[1];
+    gf3 = gfs[2];
 
-	if(lookupGestaoFilial(gf2, client) != NULL && lookupGestaoFilial(gf3, client) != NULL){
+	if(numProdutosCliente(lookupGestaoFilial(gf1, client)) > 0 && numProdutosCliente(lookupGestaoFilial(gf2, client)) > 0 && numProdutosCliente(lookupGestaoFilial(gf3, client)) > 0){
        	insert_Cat_cliente(clientsTodas, client);
     }
 
     return FALSE;
 }
 
-CAT_CLIENTES clientAll(GESTAOFILIAL gf[]){
+CAT_CLIENTES clientAll(GESTAOFILIAL gf[], CAT_CLIENTES clients){
     CAT_CLIENTES clientsTodas;
-    DATA gfs, gfNcat;
+    DATA gfNcat;
 
     clientsTodas = new_Cat_cliente();
 
-    gfs = data(gf[1], gf[2]);
-    gfNcat = data(clientsTodas, gfs);
+    gfNcat = data(clientsTodas, gf);
 
-    traverseGestFilial(gf[0], exists, gfNcat);
+    foreach_Cat_cliente(clients, exists, gfNcat);
 
     return clientsTodas;
 }

@@ -26,7 +26,7 @@ query4.o: query4.c query4.h faturacao.h catProdutos.h userData.h
 query5.o: query5.c query5.h gestaoFilial.h catClientes.h userData.h
 	$(CC) $(CFLAGS) -c query5.c $(LDLIBS)
 
-query6.o: query6.c query6.h gestaoFilial.h catClientes.h userData.h
+query6.o: query6.c query6.h gestaoFilial.h catProdutos.h faturacao.h catClientes.h userData.h
 	$(CC) $(CFLAGS) -c query6.c $(LDLIBS)
 
 query7.o: query7.c query7.h gestaoFilial.h
