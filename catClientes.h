@@ -2,7 +2,7 @@
  * @file catClientes.h
  * @author Grupo LI3 nº33
  * @date 8 Abril 2019
- * @brief Funções utilizadas para gerir o catálogo de produtos.
+ * @brief Funções utilizadas para gerir o catálogo de clientes.
  */
 #ifndef CATCLIENTES_H
 #define CATCLIENTES_H
@@ -14,7 +14,7 @@ typedef struct cat_clientes *CAT_CLIENTES;
 
 /**
  * @brief Função que cria um novo catálogo de clientes.
-
+ *
  * @return Um catálogo de clientes vazio.
  */
 CAT_CLIENTES new_Cat_cliente();
@@ -45,13 +45,10 @@ void foreach_Cat_cliente(CAT_CLIENTES c, GTraverseFunc func, gpointer user_data)
 /**
  * @brief Função que calcula o número de clientes presentes num catálogo de clientes passado por referência.
  *
- * @return Número de clientes presentes num dado catálogo.
+ * @return Número de clientes presentes num dado catálogo de clientes.
  */
 int num_Cat_cliente(CAT_CLIENTES c);
 
-/**
- * @brief Função que imprime um catálogo de clientes.
- */
 void print_Cat_client(CAT_CLIENTES c);
 
 #endif
