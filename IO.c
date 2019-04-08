@@ -1,24 +1,7 @@
 #include <stdio.h>
 #include <glib.h>
 #include <gmodule.h>
-#include "vendas.h"
-#include "leitura.h"
-#include "catProdutos.h"
-#include "catClientes.h"
-#include "gestaoFilial.h"
 
-static int checkNVendas(void * prod, void * fat, void* numVendas){
-    int i, filial;
-	int * res = numVendas;
-    for(i = 1; i < 13; i++){
-        for(filial = 1; filial < 4; filial++){
-            *res += getNVendasP(i, fat, filial);
-            *res += getNVendasN(i, fat, filial);
-		}
-    }
-
-    return FALSE;
-}
 
 static void inQuery1Aux(char * fich, char * itemName){
     int findFicheiro, scanned ;
@@ -56,9 +39,9 @@ void outQuery1(FATGLOBAL fg, char * nomeFich){
 
 }
 
-static int printProdutos(void * prodkey, void * prodval, void* data){
+int printProdutos(void * prodkey, void * prodval, void* data){
     printf("%s\n", prodVal)
-    return FALSE;
+    return 0;
 }
 
 void inQuery2(char * c){
@@ -67,9 +50,9 @@ void inQuery2(char * c){
     scanf("%c\n", c);
 }
 
-void outQuery2(CAT_PRODUTOS catProdutos){
+void outQuery2(int numP){
     printf("\n[QUERY 2] (->)\n");
-    foreach_Cat_prod(catProdutos, printProdutos, NULL);
+    printf("\n>NÚMERO DE PRODUTOS: %d", numP)
 }
 
 void inQuery3(char * query3Prod, int * query3Prod, int * query3Prod){
@@ -82,13 +65,28 @@ void outQuery3(int vendasP, int vendasN, int fatP, int fatN){
     printf("\n[QUERY 3] (->)\n");
     printf("Vendas (promoção): [%d]\n", vendasP);
     printf("Vendas (sem promoção): [%d]\n", vendasN);
-    printf("Faturação (promoção): [%f]\n", fatP
+    printf("Faturação (promoção): [%f]\n", fatP);
     printf("Faturação (sem promoção): [%f]\n", fatN);
 }
 
-void outQuery4(int vendasP, int vendasN, int fatP, int fatN){
-    printf("QUERY 4: TOTAL [%d]\n", total);
-    printf("QUERY 4: F1 [%d]\n", fat);
-    printf("QUERY 4: F2 [%d]\n", num_Cat_prod(productNoBuyFilial(fatGlobal, 2)));
-    printf("QUERY 4: F3 [%d]\n", num_Cat_prod(productNoBuyFilial(fatGlobal, 3)));
+void inQuery4(int * modo){
+    printf("\n[QUERY 4] (<-)\n");
+    printf("Procurar por:\n Total[0] (default)\nFilial[1]\n");
+    scanf("%d", modo);
+}
+
+
+void outQuery4(int total, int f1, int f2, int f3, int modo){
+    printf("\n[QUERY 4] (->)\n");
+    if(modo == 0)
+        printf("TOTAL [%d]\n", total);
+    else{
+        printf("Filial 1 [%d]\n", f1);
+        printf("Filial 2 [%d]\n", f2);
+        printf("Filial 3 [%d]\n", f3);
+    }
+}
+
+void outQuery6(){
+
 }
