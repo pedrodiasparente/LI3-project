@@ -5,7 +5,6 @@
 #include "faturacao.h"
 #include "userData.h"
 
-
 static int isCompradoFilial(void * prod, void * faturacao, void * naoComprado){
     int mes, comprado;
 
