@@ -5,7 +5,7 @@ CFLAGS = -O3 -ansi `pkg-config --cflags glib-2.0` `pkg-config --cflags --libs gm
 sgv: leitura.o IO.o  vendas.o userData.o main.o query2.o faturacao.o gestaoFilial.o catProdutos.o catClientes.o query3.o query4.o query5.o query6.o query7.o query8.o query9.o query10.o query12.o
 	$(CC) $(CFLAGS) main.o leitura.o IO.o  vendas.o userData.o query2.o faturacao.o gestaoFilial.o catProdutos.o catClientes.o query3.o query4.o query5.o query6.o query7.o query8.o query9.o query10.o query12.o -o sgv $(LDLIBS)
 
-main.o:  vendas.h IO.h leitura.h catProdutos.h catClientes.h faturacao.h gestaoFilial.h query2.h query3.h query4.h query5.h query6.h query7.h query8.h query9.h query10.h query12.h
+main.o: IO.h leitura.h query2.h query3.h query4.h query5.h query6.h query7.h query8.h query9.h query10.h query12.h
 	$(CC) $(CFLAGS) -c main.c $(LDLIBS)
 
 IO.o: IO.c IO.h
